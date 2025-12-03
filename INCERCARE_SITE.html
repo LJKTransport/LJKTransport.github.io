@@ -1,38 +1,69 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SmartMove - Acasă</title>
-  <style>
-    body { margin:0; font-family:Arial, sans-serif; background:#f7f7f7; color:#222; }
-    header { background:#1976d2; color:white; padding:14px 0; text-align:center; }
-    nav { background:#125ca1; display:flex; justify-content:center; gap:20px; padding:10px 0; }
-    nav a { color:white; text-decoration:none; font-weight:bold; }
-    nav a:hover { text-decoration:underline; }
-    .content { max-width:800px; margin:40px auto; background:white; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); text-align:center; }
-    h1 { color:#1976d2; }
-    p { line-height:1.6; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LJK TRANSPORT</title>
+
+    <link rel="stylesheet" href="INCERCARE_SITE.css">
 </head>
 <body>
-  <header>
-    <h1>SmartMove</h1>
-    <p>Soluția inteligentă pentru mutări și transport bricolaje</p>
-  </header>
 
-  <nav>
-    <a href="INCERCARE_SITE.html">Acasă</a>
-    <a href="COMANDA.html">Comandă</a>
-    <a href="#">Despre</a>
-    <a href="#">Contact</a>
-  </nav>
+    <!-- ======================
+         HEADER: LOGO + MENIU
+    ======================= -->
+    <header>
+        <img class="brand-logo" src="ljk.png" alt="Logo"> 
+        <!-- schimbi logo.png cu numele FIȘIERULUI TĂU REAL -->
 
-  <div class="content">
-    <h2>Bine ai venit la SmartMove!</h2>
-    <p>Cu ajutorul aplicației noastre web, poți calcula rapid costul unei mutări sau al unui transport de obiecte, apoi poți trimite cererea direct către firma de transport.</p>
-    <p>Totul este rapid, transparent și ușor de folosit.</p>
-    <p>Apasă pe secțiunea <strong>„Comandă”</strong> din bara de sus pentru a începe.</p>
-  </div>
+        <nav>
+            <a href="#acasa">Acasă</a>
+            <a href="COMANDA.html">Comandă</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- ======================
+         HERO (TEXT + IMAGINEA TA)
+    ======================= -->
+    <section class="hero-section" id="acasa">
+
+        <div class="hero-text">
+            <h1>Bine ați venit la LJK TRANSPORT</h1>
+            <p>Calculează rapid costul unei mutări sau al unui transport de obiecte.</p>
+            <a class="button" href="COMANDA.html">Mergi la Calculator</a>
+        </div>
+
+        <div class="hero-image">
+            <img src="poza oameni.png" alt="Transport">
+            <!-- aici pui POZA TA cu oamenii (pui numele corect) -->
+        </div>
+    </section>
+
+    <!-- ======================
+         CARDURI
+    ======================= -->
+    <div class="content">
+
+        <div class="card">
+            <h2>Calculator Mutări & Transport</h2>
+            <p>Accesează calculatorul complet pentru distanță, volum și cost estimativ.</p>
+            <a class="button" href="COMANDA.html">Deschide Calculatorul</a>
+        </div>
+
+        <div class="card" id="contact">
+            <h2>Contact</h2>
+            <p>Email: C_1988_g@yahoo.com<br>Telefon: 0712 345 678</p>
+        </div>
+
+    </div>
+
+    <!-- ======================
+         FOOTER
+    ======================= -->
+    <footer>
+        © 2025 LJK TRANSPORT. Toate drepturile rezervate.
+    </footer>
+
 </body>
 </html>
