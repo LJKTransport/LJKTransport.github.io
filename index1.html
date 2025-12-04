@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LJK Transport - Calculator</title>
+  
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f7f7f7; color: #222; }
+    header { background:#003082; color:white; padding:14px 0; text-align:center; }
+    nav { background:#00205b; display:flex; justify-content:center; gap:20px; padding:10px 0; }
+    nav a { color:white; text-decoration:none; font-weight:bold; }
+    nav a:hover { text-decoration:underline; }
+    .container { max-width:800px; margin:20px auto; background:#fff; padding:18px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
+    label { display:block; margin-top:10px; font-weight:600; }
+    input[type="text"], input[type="number"] { width:100%; padding:8px; margin-top:6px; box-sizing:border-box; border:1px solid #ddd; border-radius:4px; }
+    button { margin-top:10px; padding:10px 14px; border:none; background:#0078e7; color:#fff; border-radius:6px; cursor:pointer; }
+    button:hover { background:#003082; }
+    table { width:100%; margin-top:10px; border-collapse:collapse; }
+    th, td { border:1px solid #ddd; padding:6px; text-align:center; }
+    th { background:#e3f2fd; }
+    .deleteBtn { background:#c62828; color:white; }
+    .result { margin-top:20px; background:#f0f8ff; padding:12px; border-radius:6px; }
+    .totalRow { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:8px; }
+    .payBtn { background:#2e7d32; }
+    .payBtn[disabled] { background:#9e9e9e; cursor:not-allowed; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>LJK TRANSPORT</h1>
+    <p>Calculator costuri mutări</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Acasă</a>
+    <a href="COMANDA.html">Comandă</a>
+  </nav>
+
+  <div class="container">
+    <h2>Calculează automat costul</h2>
+
+    <label>Punct de plecare</label>
+    <input id="start" type="text" placeholder="Ex: București">
+
+    <label>Punct de destinație</label>
+    <input id="end" type="text" placeholder="Ex: Cluj-Napoca">
+
+    <label>Greutate totală (kg)</label>
+    <input id="greutate" type="number" min="0" max="1500" placeholder="max. 1500 kg">
+
+    <h3>Dimensiuni obiecte</h3>
+    <div style="display:flex; gap:10px;">
+      <input id="lungime" type="number" placeholder="L (m)" step="0.01">
+      <input id="latime" type="number" placeholder="l (m)" step="0.01">
+      <input id="inaltime" type="number" placeholder="h (m)" step="0.01">
+      <button type="button" onclick="adaugaCorp()">Adaugă</button>
+    </div>
+
+    <table id="corpuriTable">
+      <thead>
+        <tr><th>#</th><th>L</th><th>l</th><th>h</th><th>Volum</th><th>Șterge</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div style="display:flex; gap:10px; margin-top:12px;">
+      <button id="calcDist" type="button">Calculează Cost</button>
+      <button id="resetAll" type="button" style="background:#ff9800;">Resetează</button>
+    </div>
+
+    <div class="result" id="rezultat" style="display:none;">
+      <p><strong>Distanță:</strong> <span id="distText"></span> km</p>
+      <p><strong>Volum total:</strong> <span id="volumText"></span> m³</p>
+      <div class="totalRow">
+        <div><strong>Preț Total:</strong> <span id="costText"></span> lei</div>
+      </div>
+      <div style="margin-top:12px;">
+        <button id="sendBtn" class="payBtn" disabled>Trimite Comanda</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let corpuri = [];
+
+    function adaugaCorp() {
+      const L = parseFloat(document.getElementById("lungime").value);
+      const l = parseFloat(document.getElementById("latime").value);
+      const h = parseFloat(document.getElementById("inaltime").value);
+      if (!L || !l || !h) return alert("Completează dimensiunile!");
+      
+      corpuri.push({L, l, h, volum: L*l*h});
+      afiseazaCorpuri();
+      document.getElementById("lungime").value = "";
+      document.getElementById("latime").value = "";
+      document.getElementById("inaltime").value = "";
+    }
+
+    function stergeCorp(index) {
+      corpuri.splice(index, 1);
+      afiseazaCorpuri();
+    }
+
+    function afiseazaCorpuri() {
+      const tbody = document.querySelector("#corpuriTable tbody");
+      tbody.innerHTML = "";
+      corpuri.forEach((c, i) => {
+        tbody.innerHTML += `<tr><td>${i+1}</td><td>${c.L}</td><td>${c.l}</td><td>${c.h}</td><td>${c.volum.toFixed(2)}</td><td><button class="deleteBtn" onclick="stergeCorp(${i})">X</button></td></tr>`;
+      });
+    }
+
+    document.getElementById("calcDist").addEventListener("click", function() {
+        // AICI ESTE SIMULARE - Ai nevoie de API Key valid pentru distanță reală
+        // Momentan punem o distanță fixă pentru test
+        const distKm = 250; 
+        const cost = distKm * 4; 
+        
+        document.getElementById("distText").textContent = distKm;
+        document.getElementById("volumText").textContent = corpuri.reduce((s,c)=>s+c.volum,0).toFixed(2);
+        document.getElementById("costText").textContent = cost;
+        
+        document.getElementById("rezultat").style.display = "block";
+        document.getElementById("sendBtn").disabled = false;
+    });
+
+    document.getElementById("resetAll").addEventListener("click", () => location.reload());
+  </script>
+
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCixDsmIX7PAYaCoxN76QYccRzqFHZqITM"></script>
+</body>
+</html>
