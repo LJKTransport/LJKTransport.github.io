@@ -1,133 +1,474 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>LJK Transport - Calculator</title>
-  
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f7f7f7; color: #222; }
-    header { background:#003082; color:white; padding:14px 0; text-align:center; }
-    nav { background:#00205b; display:flex; justify-content:center; gap:20px; padding:10px 0; }
-    nav a { color:white; text-decoration:none; font-weight:bold; }
-    nav a:hover { text-decoration:underline; }
-    .container { max-width:800px; margin:20px auto; background:#fff; padding:18px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.08); }
-    label { display:block; margin-top:10px; font-weight:600; }
-    input[type="text"], input[type="number"] { width:100%; padding:8px; margin-top:6px; box-sizing:border-box; border:1px solid #ddd; border-radius:4px; }
-    button { margin-top:10px; padding:10px 14px; border:none; background:#0078e7; color:#fff; border-radius:6px; cursor:pointer; }
-    button:hover { background:#003082; }
-    table { width:100%; margin-top:10px; border-collapse:collapse; }
-    th, td { border:1px solid #ddd; padding:6px; text-align:center; }
-    th { background:#e3f2fd; }
-    .deleteBtn { background:#c62828; color:white; }
-    .result { margin-top:20px; background:#f0f8ff; padding:12px; border-radius:6px; }
-    .totalRow { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:8px; }
-    .payBtn { background:#2e7d32; }
-    .payBtn[disabled] { background:#9e9e9e; cursor:not-allowed; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LJK TRANSPORT | Cerere Ofertă</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           1. SETĂRI GLOBALE & VARIABILE
+           ========================================= */
+        :root {
+            --primary: #0066cc;          
+            --dark-blue: #003366;        
+            --accent: #ff9900;           
+            --text: #2c3e50;             
+            --bg-light: #f4f7f6;         
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #0066cc 0%, #00c6ff 100%); 
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* =========================================
+           2. NAVBAR
+           ========================================= */
+        .main-header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: 0.4s ease;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-container { display: flex; align-items: center; }
+        .brand-logo { height: 40px; margin-right: 10px; }
+        .site-name { font-weight: 800; font-size: 1.5rem; color: var(--dark-blue); }
+        .highlight { color: var(--accent); }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--dark-blue);
+            font-weight: 600;
+            margin-left: 25px;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+        .main-nav a:hover { color: var(--primary); }
+        .main-nav a.active { color: var(--primary); border-bottom: 2px solid var(--accent); }
+
+        .nav-btn-highlight {
+            background: var(--accent);
+            color: white !important;
+            padding: 8px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3);
+        }
+        .nav-btn-highlight:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 153, 0, 0.5); }
+
+        .mobile-menu-icon { display: none; font-size: 1.5rem; cursor: pointer; color: var(--dark-blue); }
+
+        /* =========================================
+           3. FORMULAR & GRID
+           ========================================= */
+        .request-form-section { padding: 100px 10%; background: #f8f9fa; min-height: 100vh; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.5rem; color: var(--dark-blue); margin-bottom: 10px; }
+
+        .glass-form-container {
+            background: #fff; border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08); overflow: hidden;
+            max-width: 1100px; margin: 0 auto; border: 1px solid rgba(0,0,0,0.05);
+            padding: 40px;
+        }
+
+        .calculator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; width: 100%; }
+
+        /* Input Styles */
+        .modern-form .input-group { position: relative; width: 100%; margin-bottom: 20px; }
+        .input-group input, .input-group textarea {
+            width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 10px;
+            outline: none; transition: 0.3s; background: #fdfdfd; font-size: 1rem; font-family: inherit;
+        }
+        .input-group input:focus, .input-group textarea:focus {
+            border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+        }
+        .input-group label {
+            position: absolute; left: 15px; top: 15px; color: #999; pointer-events: none; transition: 0.3s;
+            background: transparent; padding: 0 5px; font-size: 1rem;
+        }
+        .input-group input:focus ~ label, .input-group input:not(:placeholder-shown) ~ label {
+            top: -10px; left: 10px; font-size: 0.8rem; color: var(--primary); background: #fff; font-weight: 600;
+        }
+
+        /* Butoane */
+        .button {
+            padding: 12px 30px; border-radius: 30px; text-decoration: none;
+            font-weight: 700; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            border: none; cursor: pointer; font-family: 'Poppins', sans-serif;
+        }
+        .btn-glow {
+            background: var(--gradient); color: white;
+            box-shadow: 0 10px 25px rgba(0, 198, 255, 0.4);
+        }
+        .btn-glow:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0, 198, 255, 0.6); }
+
+        /* =========================================
+           4. VIZUALIZARE DUBĂ (GRAFIC)
+           ========================================= */
+        .van-visual-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .van-graphic {
+            position: relative;
+            width: 320px;
+            height: 140px;
+            margin-bottom: 10px;
+        }
+
+        /* Cutia Marfă */
+        .cargo-box {
+            position: absolute; left: 0; top: 0;
+            width: 230px; height: 110px;
+            border: 3px solid #333; border-radius: 5px;
+            background: #f9f9f9; overflow: hidden; z-index: 1;
+        }
+        .fill-level {
+            position: absolute; bottom: 0; left: 0;
+            width: 0%; height: 100%;
+            background: linear-gradient(to right, #4caf50, #81c784);
+            opacity: 0.7; transition: width 0.5s ease, background 0.3s ease;
+            border-right: 1px solid rgba(0,0,0,0.1);
+        }
+        .cargo-lines {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(90deg, transparent, transparent 38px, rgba(0,0,0,0.05) 39px, rgba(0,0,0,0.05) 40px);
+            z-index: 2; pointer-events: none;
+        }
+
+        /* Cabina */
+        .cabin {
+            position: absolute; right: 0; top: 30px;
+            width: 85px; height: 80px;
+            background: #fff; border: 3px solid #333; border-left: none;
+            border-radius: 0 20px 5px 0; z-index: 0;
+        }
+        .cabin::before {
+            content: ''; position: absolute; top: 5px; right: 10px;
+            width: 45px; height: 35px; background: #e1f5fe;
+            border: 2px solid #333; border-radius: 0 15px 0 0;
+        }
+
+        /* Roți */
+        .wheel {
+            position: absolute; bottom: 0;
+            width: 40px; height: 40px; background: #222;
+            border-radius: 50%; border: 3px solid #555; z-index: 5;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        .wheel::after {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 15px; height: 15px; background: #999; border-radius: 50%;
+        }
+        .wheel.rear { left: 40px; bottom: -15px; }
+        .wheel.front { right: 25px; bottom: -15px; }
+
+        .percent-text {
+            position: absolute; top: 50%; left: 35%; transform: translate(-50%, -50%);
+            font-size: 1.5rem; font-weight: 800; color: #333; z-index: 10;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+        }
+        .warning-box { margin-top: 25px; font-weight: 600; min-height: 25px; font-size: 0.9rem; }
+
+        /* =========================================
+           5. TABEL & INPUTURI
+           ========================================= */
+        .dims-inputs { display: flex; gap: 10px; align-items: center; margin-bottom: 15px; }
+        .dims-inputs .input-group { flex: 1; margin-bottom: 0; }
+        
+        .add-dim-btn {
+            background: var(--accent); color: white; border: none; border-radius: 10px;
+            width: 54px; height: 54px; cursor: pointer; font-size: 1.2rem; transition: 0.3s;
+            flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+        }
+        .add-dim-btn:hover { background: #e68a00; transform: translateY(-2px); }
+
+        .table-container {
+            background: white; border-radius: 10px; max-height: 200px; overflow-y: auto;
+            border: 1px solid #eee;
+        }
+        #corpuriTable { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        #corpuriTable th {
+            background-color: var(--primary); color: white; padding: 10px;
+            position: sticky; top: 0; z-index: 10;
+        }
+        #corpuriTable td { padding: 8px; border-bottom: 1px solid #eee; text-align: center; }
+
+        .delete-btn {
+            background: #ff4d4d; color: white; border: none; border-radius: 50%;
+            width: 25px; height: 25px; cursor: pointer; margin: 0 auto;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Footer */
+        footer { background: #111; color: #555; text-align: center; padding: 30px; font-size: 0.9rem; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main-nav { 
+                position: absolute; top: 70px; left: 0; width: 100%; background: white;
+                flex-direction: column; padding: 20px; display: none; box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+            }
+            .main-nav.active { display: flex; }
+            .mobile-menu-icon { display: block; }
+            .nav-btn-highlight { width: 100%; text-align: center; margin: 10px 0; }
+            
+            .calculator-grid { grid-template-columns: 1fr; gap: 30px; }
+            .glass-form-container { padding: 20px; }
+            .dims-inputs { flex-wrap: wrap; }
+            .dims-inputs .input-group { min-width: 30%; }
+            .add-dim-btn { width: 100%; margin-top: 10px; }
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <h1>LJK TRANSPORT</h1>
-    <p>Calculator costuri mutări</p>
-  </header>
+    <header class="main-header sticky">
+        <div class="logo-container">
+            <img class="brand-logo" src="ljk.png" alt="Logo"> 
+            <span class="site-name">LJK <span class="highlight">TRANSPORT</span></span>
+        </div>
+        <nav class="main-nav">
+            <a href="index.html">Acasă</a>
+            <a href="index.html#calculator-section">Calculator</a>
+            <a href="cerere.html" class="active nav-btn-highlight">Cerere Ofertă</a>
+            <a href="index.html#contact-section">Contact</a>
+        </nav>
+        <div class="mobile-menu-icon" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+    </header>
 
-  <nav>
-    <a href="index.html">Acasă</a>
-    <a href="COMANDA.html">Comandă</a>
-  </nav>
+    <section class="request-form-section">
+        <div class="section-title" data-aos="fade-down">
+            <h2>Configurare <span class="highlight">Transport</span></h2>
+            <p>Completează detaliile și verifică vizual încărcarea dubei.</p>
+        </div>
 
-  <div class="container">
-    <h2>Calculează automat costul</h2>
+        <div class="glass-form-container" data-aos="fade-up">
+            
+            <form id="offerForm" onsubmit="event.preventDefault(); trimiteCerere();">
+                <div class="calculator-grid">
+                    
+                    <div class="client-details">
+                        <h3 style="color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom:10px;">
+                            1. Date & Traseu
+                        </h3>
+                        
+                        <div class="modern-form">
+                            <div class="input-group">
+                                <input type="text" id="nume" required placeholder=" ">
+                                <label>Nume și Prenume</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="tel" id="telefon" required placeholder=" ">
+                                <label>Telefon</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="email" id="email" required placeholder=" ">
+                                <label>Email</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="plecare" required placeholder=" ">
+                                <label>Localitate Plecare</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="sosire" required placeholder=" ">
+                                <label>Localitate Sosire</label>
+                            </div>
+                            <div class="input-group">
+                                <textarea id="mentiuni" rows="3" placeholder="Alte detalii..." style="width:100%; padding:10px; border:2px solid #eee; border-radius:10px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
 
-    <label>Punct de plecare</label>
-    <input id="start" type="text" placeholder="Ex: București">
+                    <div class="load-details">
+                        <h3 style="color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom:10px;">
+                            2. Verificare Încărcare
+                        </h3>
 
-    <label>Punct de destinație</label>
-    <input id="end" type="text" placeholder="Ex: Cluj-Napoca">
+                        <div class="van-visual-container">
+                            <div class="van-graphic">
+                                <div class="cargo-box">
+                                    <div class="cargo-lines"></div>
+                                    <div class="fill-level" id="vanFill"></div>
+                                </div>
+                                <div class="cabin"></div>
+                                <div class="wheel rear"></div>
+                                <div class="wheel front"></div>
+                                <div class="percent-text" id="fillPercent">0%</div>
+                            </div>
+                            
+                            <p style="font-size:0.9rem; color:#666; margin-top: 10px;">
+                                Volum Ocupat: <strong id="totalVolDisplay">0.00</strong> / 9.31 m³
+                            </p>
+                            <div id="warningMsg" class="warning-box"></div>
+                        </div>
 
-    <label>Greutate totală (kg)</label>
-    <input id="greutate" type="number" min="0" max="1500" placeholder="max. 1500 kg">
+                        <p style="font-size:0.9rem; margin-bottom:5px; font-weight:600;">Scrie dimensiunile (în metri):</p>
+                        
+                        <div class="dims-inputs modern-form">
+                            <div class="input-group">
+                                <input id="lungime" type="number" step="0.01" placeholder=" ">
+                                <label>L (max 3.5)</label>
+                            </div>
+                            <div class="input-group">
+                                <input id="latime" type="number" step="0.01" placeholder=" ">
+                                <label>l (max 1.4)</label>
+                            </div>
+                            <div class="input-group">
+                                <input id="inaltime" type="number" step="0.01" placeholder=" ">
+                                <label>h (max 1.9)</label>
+                            </div>
+                            <button type="button" onclick="adaugaSiVerifica()" class="add-dim-btn" title="Adaugă"><i class="fas fa-plus"></i></button>
+                        </div>
 
-    <h3>Dimensiuni obiecte</h3>
-    <div style="display:flex; gap:10px;">
-      <input id="lungime" type="number" placeholder="L (m)" step="0.01">
-      <input id="latime" type="number" placeholder="l (m)" step="0.01">
-      <input id="inaltime" type="number" placeholder="h (m)" step="0.01">
-      <button type="button" onclick="adaugaCorp()">Adaugă</button>
-    </div>
+                        <div class="table-container">
+                            <table id="corpuriTable">
+                                <thead><tr><th>#</th><th>L</th><th>l</th><th>h</th><th>Volum</th><th>Șterge</th></tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
 
-    <table id="corpuriTable">
-      <thead>
-        <tr><th>#</th><th>L</th><th>l</th><th>h</th><th>Volum</th><th>Șterge</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+                </div>
 
-    <div style="display:flex; gap:10px; margin-top:12px;">
-      <button id="calcDist" type="button">Calculează Cost</button>
-      <button id="resetAll" type="button" style="background:#ff9800;">Resetează</button>
-    </div>
+                <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                    <button type="submit" class="button btn-glow" style="width: 100%; max-width: 400px; font-size: 1.2rem;">
+                        Trimite Cererea Fermă <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </form>
 
-    <div class="result" id="rezultat" style="display:none;">
-      <p><strong>Distanță:</strong> <span id="distText"></span> km</p>
-      <p><strong>Volum total:</strong> <span id="volumText"></span> m³</p>
-      <div class="totalRow">
-        <div><strong>Preț Total:</strong> <span id="costText"></span> lei</div>
-      </div>
-      <div style="margin-top:12px;">
-        <button id="sendBtn" class="payBtn" disabled>Trimite Comanda</button>
-      </div>
-    </div>
-  </div>
+        </div>
+    </section>
 
-  <script>
-    let corpuri = [];
+    <footer><p>© 2025 LJK TRANSPORT.</p></footer>
 
-    function adaugaCorp() {
-      const L = parseFloat(document.getElementById("lungime").value);
-      const l = parseFloat(document.getElementById("latime").value);
-      const h = parseFloat(document.getElementById("inaltime").value);
-      if (!L || !l || !h) return alert("Completează dimensiunile!");
-      
-      corpuri.push({L, l, h, volum: L*l*h});
-      afiseazaCorpuri();
-      document.getElementById("lungime").value = "";
-      document.getElementById("latime").value = "";
-      document.getElementById("inaltime").value = "";
-    }
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+        function toggleMenu() { document.querySelector('.main-nav').classList.toggle('active'); }
 
-    function stergeCorp(index) {
-      corpuri.splice(index, 1);
-      afiseazaCorpuri();
-    }
+        // --- LOGICA SIMULATOR ---
+        const MAX_L = 350;
+        const MAX_l = 140;
+        const MAX_h = 190;
+        const MAX_VOLUM = 9310000; 
 
-    function afiseazaCorpuri() {
-      const tbody = document.querySelector("#corpuriTable tbody");
-      tbody.innerHTML = "";
-      corpuri.forEach((c, i) => {
-        tbody.innerHTML += `<tr><td>${i+1}</td><td>${c.L}</td><td>${c.l}</td><td>${c.h}</td><td>${c.volum.toFixed(2)}</td><td><button class="deleteBtn" onclick="stergeCorp(${i})">X</button></td></tr>`;
-      });
-    }
+        let corpuri = [];
 
-    document.getElementById("calcDist").addEventListener("click", function() {
-        // AICI ESTE SIMULARE - Ai nevoie de API Key valid pentru distanță reală
-        // Momentan punem o distanță fixă pentru test
-        const distKm = 250; 
-        const cost = distKm * 4; 
-        
-        document.getElementById("distText").textContent = distKm;
-        document.getElementById("volumText").textContent = corpuri.reduce((s,c)=>s+c.volum,0).toFixed(2);
-        document.getElementById("costText").textContent = cost;
-        
-        document.getElementById("rezultat").style.display = "block";
-        document.getElementById("sendBtn").disabled = false;
-    });
+        function adaugaSiVerifica() {
+            // Preluăm valori (acceptă orice număr tastat)
+            const L = parseFloat(document.getElementById("lungime").value);
+            const l = parseFloat(document.getElementById("latime").value);
+            const h = parseFloat(document.getElementById("inaltime").value);
+            const warningEl = document.getElementById("warningMsg");
 
-    document.getElementById("resetAll").addEventListener("click", () => location.reload());
-  </script>
+            // 1. Validare numere
+            if (isNaN(L) || isNaN(l) || isNaN(h) || L <= 0 || l <= 0 || h <= 0) {
+                warningEl.innerText = "Introdu dimensiuni valide!";
+                warningEl.style.color = "#d9534f";
+                return;
+            }
 
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCixDsmIX7PAYaCoxN76QYccRzqFHZqITM"></script>
+            // 2. Verificare Dimensiuni Fizice (Sortare pentru rotație)
+            const dimObiect = [L, l, h].sort((a,b) => b-a); 
+            const dimDuba = [MAX_L, MAX_h, MAX_l].sort((a,b) => b-a); 
+
+            if (dimObiect[0] > dimDuba[0] || dimObiect[1] > dimDuba[1] || dimObiect[2] > dimDuba[2]) {
+                warningEl.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ATENȚIE: Obiectul (${L}x${l}x${h}) e fizic prea mare!`;
+                warningEl.style.color = "red";
+            } else {
+                warningEl.innerText = "";
+            }
+
+            // 3. Verificare Volum Total
+            const volumObiect = L * l * h;
+            const volumCurentTotal = corpuri.reduce((acc, curr) => acc + curr.volum, 0);
+
+            if (volumCurentTotal + volumObiect > MAX_VOLUM) {
+                warningEl.innerHTML = `<i class="fas fa-hand-paper"></i> STOP: Depășești capacitatea (9.31 m³)!`;
+                warningEl.style.color = "red";
+                return;
+            }
+
+            // 4. Adăugare
+            corpuri.push({L, l, h, volum: volumObiect});
+            updateUI();
+            
+            // Golire câmpuri
+            document.getElementById("lungime").value = "";
+            document.getElementById("latime").value = "";
+            document.getElementById("inaltime").value = "";
+            document.getElementById("lungime").focus();
+        }
+
+        function stergeCorp(index) {
+            corpuri.splice(index, 1);
+            document.getElementById("warningMsg").innerText = ""; 
+            updateUI();
+        }
+
+        function updateUI() {
+            // Tabel
+            const tbody = document.querySelector("#corpuriTable tbody");
+            tbody.innerHTML = "";
+            corpuri.forEach((c, i) => {
+                tbody.innerHTML += `<tr><td>${i+1}</td><td>${c.L}</td><td>${c.l}</td><td>${c.h}</td><td>${c.volum.toFixed(2)}</td><td><button class="delete-btn" onclick="stergeCorp(${i})">X</button></td></tr>`;
+            });
+
+            // Duba Grafică
+            const totalVol = corpuri.reduce((acc, curr) => acc + curr.volum, 0);
+            const percentage = (totalVol / MAX_VOLUM) * 100;
+            
+            const fillBar = document.getElementById("vanFill");
+            const percentText = document.getElementById("fillPercent");
+            
+            document.getElementById("totalVolDisplay").innerText = totalVol.toFixed(2);
+            percentText.innerText = percentage.toFixed(0) + "%";
+            fillBar.style.width = percentage + "%";
+            
+            if (percentage < 50) {
+                fillBar.style.background = "linear-gradient(to right, #4caf50, #81c784)"; 
+            } else if (percentage < 85) {
+                fillBar.style.background = "linear-gradient(to right, #ff9800, #ffcc80)"; 
+            } else {
+                fillBar.style.background = "linear-gradient(to right, #f44336, #ef9a9a)"; 
+            }
+        }
+
+        function trimiteCerere() {
+            const nume = document.getElementById("nume").value;
+            if(!nume) { alert("Te rugăm să completezi numele!"); return; }
+            alert("Cererea a fost trimisă cu succes!");
+        }
+    </script>
 </body>
 </html>
