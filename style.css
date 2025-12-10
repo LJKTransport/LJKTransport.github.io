@@ -28,7 +28,7 @@ body {
 .main-header {
     position: fixed;
     top: 0; left: 0; width: 100%;
-    padding: 15px 5%;
+    padding: 30px 5%; /* Bara este acum mai lata initial */;
     display: flex; justify-content: space-between; align-items: center;
     transition: 0.4s ease;
     z-index: 1000;
@@ -37,34 +37,94 @@ body {
 
 .main-header.sticky {
     background: rgba(255, 255, 255, 0.95);
-    padding: 10px 5%;
+    padding: 20px 5%; /* Bara ramane putin mai lata si cand scrolezi */
     box-shadow: 0 5px 20px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
 }
 
+/* LOGO NOU */
 .logo-container { display: flex; align-items: center; }
-.brand-logo { height: 40px; margin-right: 10px; }
-.site-name { font-weight: 800; font-size: 1.5rem; color: var(--dark-blue); }
-.highlight { color: var(--accent); }
+.brand-logo { height: 45px; margin-right: 12px; } /* Am marit putin logo-ul si spatiul */
 
+/* Container pentru cele doua randuri de text */
+.logo-text-stack {
+    display: flex;
+    flex-direction: column; /* Le aseaza unul sub altul */
+    justify-content: center;
+    line-height: 1.1; /* Spatiere mai mica intre randuri */
+}
+
+/* Textul mare SmartMove */
+.site-name.main-title { 
+    font-weight: 800; 
+    font-size: 1.4rem; 
+    color: var(--dark-blue); 
+    letter-spacing: -0.5px;
+}
+
+/* Textul mic de subsol */
+.sub-title {
+    font-size: 0.7rem;
+    color: var(--dark-blue); /* Am schimbat in albastru inchis */
+    font-weight: 700; /* L-am facut putin mai gros ca sa iasa in evidenta */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+/* .highlight { color: var(--accent); } <- Nu mai avem nevoie de asta aici momentan */
+
+/* --- STILURI NOI PENTRU MENIU (Robot & Mare) --- */
 .main-nav a {
     text-decoration: none;
-    color: var(--dark-blue);
-    font-weight: 600;
-    margin-left: 25px;
+    /* Initial le facem ALBE ca sa se vada pe fundalul colorat */
+    color: white; 
+    font-weight: 700; 
+    /* Font "robot"/geometric si majuscule */
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px; /* Spatiere intre litere pt aspect robot */
+    margin-left: 35px; /* Spatiu mai mare intre butoane */
     transition: 0.3s;
-    font-size: 0.95rem;
+    font-size: 1.05rem; /* Text mai mare */
+    padding-bottom: 5px; /* Spatiu pentru subliniere */
+    border-bottom: 3px solid transparent; /* Linie invizibila initial */
 }
-.main-nav a:hover { color: var(--primary); }
-.main-nav a.active { color: var(--primary); border-bottom: 2px solid var(--accent); }
+
+/* Cand treci cu mouse-ul */
+.main-nav a:hover { 
+    color: var(--accent); /* Portocaliu la hover initial */
+}
+
+/* Link-ul Activ (ACASA) initial */
+.main-nav a.active { 
+    color: white; 
+    border-bottom: 3px solid var(--primary); /* Subliniere ALBASTRA */
+}
+
+/* --- SCHIMBARE CULORI CAND BARA E ALBA (Sticky) --- */
+/* Cand headerul are clasa .sticky (dupa scroll), schimbam culorile textului in albastru */
+.main-header.sticky .main-nav a {
+    color: var(--dark-blue);
+}
+.main-header.sticky .main-nav a:hover {
+    color: var(--primary);
+}
+.main-header.sticky .main-nav a.active {
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary); /* Subliniere ALBASTRA */
+}
 
 /* Butonul evidențiat din meniu */
 .nav-btn-highlight {
     background: var(--accent);
     color: white !important;
-    padding: 8px 20px;
-    border-radius: 20px;
+    padding: 10px 25px; /* Putin mai mare */
+    border-radius: 30px;
     box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3);
+    /* Adaugam stilul robot si aici */
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 .nav-btn-highlight:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 153, 0, 0.5); }
 
@@ -85,10 +145,12 @@ body {
 
 .hero-bg-shape {
     position: absolute;
-    top: -20%; right: -10%;
-    width: 60%; height: 140%;
+    top: -20%; 
+    right: -10%; /* Ramane ancorat in dreapta */
+    width: 65%; /* <--- AM MARIT SEMNIFICATIV (era 60%) */
+    height: 150%; /* Putin mai inalt */
     background: var(--gradient);
-    border-radius: 0 0 0 40%;
+    border-radius: 0 0 0 60%; /* <--- Curba mai ampla ca sa nu fie prea brusca */
     transform: skewX(-10deg);
     z-index: 0;
 }
