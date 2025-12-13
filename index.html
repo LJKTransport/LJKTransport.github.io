@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LJK TRANSPORT | Servicii Profesionale</title>
+    <title>SmartMove | LJK Transport</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -16,7 +16,8 @@
     <header class="main-header" id="navbar">
         <div class="logo-container">
             <img class="brand-logo" src="ljk.png" alt="Logo"> 
-            <div class="logo-text-stack"> <span class="site-name main-title">SmartMove</span>
+            <div class="logo-text-stack">
+                <span class="site-name main-title">SmartMove</span>
                 <span class="sub-title">by LJK Transport | din 2018</span>
             </div>
         </div>
@@ -47,26 +48,55 @@
                 </div>
             </div>
             <div class="hero-image" data-aos="zoom-in">
-                <img src="poza oameni.png" alt="LJK Transport" class="floating-img">
+                <img src="poza oameni.png" alt="SmartMove Transport" class="floating-img">
             </div>
         </div>
     </section>
 
     <section class="features-section">
-        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-card" onclick="toggleCard(this)">
             <div class="icon-circle"><i class="fas fa-route"></i></div>
             <h3>Național</h3>
-            <p>Curse din Brașov către orice destinație.</p>
+            <p class="short-desc">Curse din Brașov către orice destinație.</p>
+            
+            <div class="feature-details">
+                <hr>
+                <p>Oferim servicii complete de transport marfă și mutări pe întreg teritoriul României, cu plecare din Brașov.</p>
+                <p>Indiferent dacă ai nevoie să muți o singură piesă de mobilier sau întreaga locuință într-un alt județ, suntem pregătiți de drum.</p>
+                <p>Planificăm ruta eficient pentru a asigura cel mai scurt timp de livrare și costuri optimizate pentru tine.</p>
+                <p>Siguranța bunurilor tale este prioritatea noastră pe distanțe lungi.</p>
+            </div>
+            <i class="fas fa-chevron-down expand-icon"></i>
         </div>
-        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+
+        <div class="feature-card" onclick="toggleCard(this)">
             <div class="icon-circle"><i class="fas fa-truck-loading"></i></div>
             <h3>Până la 1.5 Tone</h3>
-            <p>Mașini spațioase și sigure.</p>
+            <p class="short-desc">Mașini spațioase și sigure.</p>
+
+            <div class="feature-details">
+                <hr>
+                <p>Flota noastră este formată din autoutilitare de 3.5 tone (masa maximă autorizată), care permit o sarcină utilă generoasă.</p>
+                <p>Dubele sunt carosate special pentru volum, având dimensiuni interioare de până la 3.5m lungime.</p>
+                <p>Suntem echipați cu chingi de ancorare profesionale, folie stretch și pături protectoare.</p>
+                <p>Ideal pentru mutări de apartamente cu 2-3 camere sau transport de marfă paletizată.</p>
+            </div>
+            <i class="fas fa-chevron-down expand-icon"></i>
         </div>
-        <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+
+        <div class="feature-card" onclick="toggleCard(this)">
             <div class="icon-circle"><i class="fas fa-cube"></i></div>
             <h3>Volum Exact</h3>
-            <p>Calculezi spațiul necesar înainte.</p>
+            <p class="short-desc">Calculezi spațiul necesar înainte.</p>
+
+            <div class="feature-details">
+                <hr>
+                <p>Transparența este cheia serviciilor noastre. Nu plătești "ochiometric", ci bazat pe volumul real ocupat.</p>
+                <p>Folosind calculatorul nostru inteligent, poți vedea exact cum se vor așeza obiectele în duba noastră.</p>
+                <p>Acest sistem te ajută să eviți surprizele neplăcute la preț și să știi exact dacă ai nevoie de unul sau mai multe transporturi.</p>
+                <p>Optimizăm încărcarea pentru a proteja bunurile fragile.</p>
+            </div>
+            <i class="fas fa-chevron-down expand-icon"></i>
         </div>
     </section>
 
@@ -138,7 +168,7 @@
         </div>
     </section>
 
-    <footer><p>© 2025 LJK TRANSPORT.</p></footer>
+    <footer><p>© 2025 SmartMove by LJK TRANSPORT.</p></footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
@@ -148,7 +178,15 @@
         });
         function toggleMenu() { document.querySelector('.main-nav').classList.toggle('active'); }
 
-        // LOGICA CALCULATOR
+        // LOGICA INSULE (CARDURI)
+        function toggleCard(clickedCard) {
+            const allCards = document.querySelectorAll('.feature-card');
+            const isAlreadyOpen = clickedCard.classList.contains('open');
+            allCards.forEach(card => card.classList.remove('open'));
+            if (!isAlreadyOpen) { clickedCard.classList.add('open'); }
+        }
+
+        // LOGICA CALCULATOR (SIMPLE)
         let corpuri = [];
         function adaugaCorp() {
             const L = parseFloat(document.getElementById("lungime").value);

@@ -9,7 +9,6 @@
     --bg-light: #f4f7f6;         /* Fundal General */
     --white: #ffffff;
     --gradient: linear-gradient(135deg, #0066cc 0%, #00c6ff 100%); 
-    --shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,12 +22,12 @@ body {
 }
 
 /* =========================================
-   2. NAVBAR
+   2. NAVBAR (Meniu Lat & Robot)
    ========================================= */
 .main-header {
     position: fixed;
     top: 0; left: 0; width: 100%;
-    padding: 30px 5%; /* Bara este acum mai lata initial */;
+    padding: 30px 5%; /* Bara mai lata initial */
     display: flex; justify-content: space-between; align-items: center;
     transition: 0.4s ease;
     z-index: 1000;
@@ -37,137 +36,82 @@ body {
 
 .main-header.sticky {
     background: rgba(255, 255, 255, 0.95);
-    padding: 20px 5%; /* Bara ramane putin mai lata si cand scrolezi */
+    padding: 20px 5%;
     box-shadow: 0 5px 20px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
 }
 
 /* LOGO NOU */
 .logo-container { display: flex; align-items: center; }
-.brand-logo { height: 45px; margin-right: 12px; } /* Am marit putin logo-ul si spatiul */
+.brand-logo { height: 45px; margin-right: 12px; } 
 
-/* Container pentru cele doua randuri de text */
 .logo-text-stack {
-    display: flex;
-    flex-direction: column; /* Le aseaza unul sub altul */
-    justify-content: center;
-    line-height: 1.1; /* Spatiere mai mica intre randuri */
+    display: flex; flex-direction: column; justify-content: center; line-height: 1.1;
 }
 
-/* Textul mare SmartMove */
 .site-name.main-title { 
-    font-weight: 800; 
-    font-size: 1.4rem; 
-    color: var(--dark-blue); 
-    letter-spacing: -0.5px;
+    font-weight: 800; font-size: 1.4rem; color: var(--dark-blue); letter-spacing: -0.5px;
 }
 
-/* Textul mic de subsol */
 .sub-title {
-    font-size: 0.7rem;
-    color: var(--dark-blue); /* Am schimbat in albastru inchis */
-    font-weight: 700; /* L-am facut putin mai gros ca sa iasa in evidenta */
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-size: 0.7rem; color: var(--dark-blue); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px;
 }
-/* .highlight { color: var(--accent); } <- Nu mai avem nevoie de asta aici momentan */
 
-/* --- STILURI NOI PENTRU MENIU (Robot & Mare) --- */
+/* MENIU */
 .main-nav a {
     text-decoration: none;
-    /* Initial le facem ALBE ca sa se vada pe fundalul colorat */
-    color: white; 
+    color: white; /* Initial ALB */
     font-weight: 700; 
-    /* Font "robot"/geometric si majuscule */
     font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
-    letter-spacing: 1px; /* Spatiere intre litere pt aspect robot */
-    margin-left: 35px; /* Spatiu mai mare intre butoane */
-    transition: 0.3s;
-    font-size: 1.05rem; /* Text mai mare */
-    padding-bottom: 5px; /* Spatiu pentru subliniere */
-    border-bottom: 3px solid transparent; /* Linie invizibila initial */
-}
-
-/* Cand treci cu mouse-ul */
-.main-nav a:hover { 
-    color: var(--accent); /* Portocaliu la hover initial */
-}
-
-/* Link-ul Activ (ACASA) initial */
-.main-nav a.active { 
-    color: white; 
-    border-bottom: 3px solid var(--primary); /* Subliniere ALBASTRA */
-}
-
-/* --- SCHIMBARE CULORI CAND BARA E ALBA (Sticky) --- */
-/* Cand headerul are clasa .sticky (dupa scroll), schimbam culorile textului in albastru */
-.main-header.sticky .main-nav a {
-    color: var(--dark-blue);
-}
-.main-header.sticky .main-nav a:hover {
-    color: var(--primary);
-}
-.main-header.sticky .main-nav a.active {
-    color: var(--primary);
-    border-bottom: 3px solid var(--primary); /* Subliniere ALBASTRA */
-}
-
-/* Butonul evidențiat din meniu */
-.nav-btn-highlight {
-    background: var(--accent);
-    color: white !important;
-    padding: 10px 25px; /* Putin mai mare */
-    border-radius: 30px;
-    box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3);
-    /* Adaugam stilul robot si aici */
-    font-family: 'Montserrat', sans-serif;
-    text-transform: uppercase;
-    font-weight: 700;
     letter-spacing: 1px;
+    margin-left: 35px;
+    transition: 0.3s;
+    font-size: 1.05rem;
+    padding-bottom: 5px;
+    border-bottom: 3px solid transparent;
 }
-.nav-btn-highlight:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 153, 0, 0.5); }
 
+.main-nav a:hover, .main-nav a.active:hover { 
+    color: var(--accent) !important; cursor: pointer;
+}
+
+.main-nav a.active { 
+    color: white; border-bottom: 3px solid var(--primary); 
+}
+
+/* MENIU PE STICKY (ALB) */
+.main-header.sticky .main-nav a { color: var(--dark-blue); }
+.main-header.sticky .main-nav a:hover { color: var(--accent); }
+.main-header.sticky .main-nav a.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+
+.nav-btn-highlight {
+    background: var(--accent); color: white !important; padding: 10px 25px;
+    border-radius: 30px; box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3);
+    font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;
+}
 .mobile-menu-icon { display: none; font-size: 1.5rem; cursor: pointer; color: var(--dark-blue); }
 
 /* =========================================
-   3. HERO SECTION
+   3. HERO SECTION (Fundal Extins)
    ========================================= */
 .hero-section {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding: 100px 10% 0;
-    background: #fff;
-    overflow: hidden;
+    min-height: 100vh; display: flex; align-items: center; position: relative;
+    padding: 100px 10% 0; background: #fff; overflow: hidden;
 }
 
 .hero-bg-shape {
-    position: absolute;
-    top: -20%; 
-    right: -10%; /* Ramane ancorat in dreapta */
-    width: 65%; /* <--- AM MARIT SEMNIFICATIV (era 60%) */
-    height: 150%; /* Putin mai inalt */
-    background: var(--gradient);
-    border-radius: 0 0 0 60%; /* <--- Curba mai ampla ca sa nu fie prea brusca */
-    transform: skewX(-10deg);
-    z-index: 0;
+    position: absolute; top: -20%; right: -10%; 
+    width: 65%; /* EXTINS SPRE STANGA PENTRU ACASA */
+    height: 150%; 
+    background: var(--gradient); border-radius: 0 0 0 60%; transform: skewX(-10deg); z-index: 0;
 }
 
 .hero-container {
-    display: flex; justify-content: space-between; align-items: center;
-    width: 100%; z-index: 1; gap: 50px;
+    display: flex; justify-content: space-between; align-items: center; width: 100%; z-index: 1; gap: 50px;
 }
-
 .hero-text { flex: 1; }
-
-.badge-top {
-    background: rgba(0, 102, 204, 0.1); color: var(--primary);
-    padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; font-weight: 700;
-    display: inline-block; margin-bottom: 15px;
-}
-
 .hero-text h1 {
     font-size: 3.5rem; line-height: 1.1; font-family: 'Montserrat', sans-serif;
     margin-bottom: 20px; color: var(--dark-blue);
@@ -176,42 +120,29 @@ body {
     background: var(--gradient); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .hero-text p { font-size: 1.1rem; color: #666; margin-bottom: 30px; }
-
 .hero-buttons { display: flex; gap: 20px; }
-
-.button {
-    padding: 12px 30px; border-radius: 30px; text-decoration: none;
-    font-weight: 700; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-    border: none; cursor: pointer; font-family: 'Poppins', sans-serif;
-}
-.btn-glow {
-    background: var(--gradient); color: white;
-    box-shadow: 0 10px 25px rgba(0, 198, 255, 0.4);
-}
-.btn-glow:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0, 198, 255, 0.6); }
-.btn-outline {
-    background: transparent; border: 2px solid var(--dark-blue); color: var(--dark-blue);
-}
-.btn-outline:hover { background: var(--dark-blue); color: white; }
-
 .hero-image { flex: 1; text-align: center; }
-.hero-image img {
-    width: 100%; max-width: 600px;
-    filter: drop-shadow(20px 20px 30px rgba(0,0,0,0.2));
-    animation: float 6s ease-in-out infinite;
-}
+.hero-image img { width: 100%; max-width: 600px; animation: float 6s ease-in-out infinite; }
 @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
+.badge-top {
+    background: rgba(0, 102, 204, 0.1); color: var(--primary);
+    padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; font-weight: 700;
+    display: inline-block; margin-bottom: 15px;
+}
 
 /* =========================================
-   4. FEATURES
+   4. FEATURES (INSULE - ACORDEON)
    ========================================= */
 .features-section {
     display: flex; justify-content: center; gap: 30px;
     padding: 50px 10%; margin-top: -80px; position: relative; z-index: 2; flex-wrap: wrap;
 }
+
 .feature-card {
     background: white; padding: 30px; border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.08); text-align: center; width: 300px; transition: 0.3s;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08); text-align: center; width: 300px; 
+    cursor: pointer; position: relative; overflow: hidden; transition: all 0.4s ease;
+    max-height: 280px; /* Inchis */
 }
 .feature-card:hover { transform: translateY(-10px); }
 .icon-circle {
@@ -221,22 +152,35 @@ body {
 }
 .feature-card:hover .icon-circle { background: var(--primary); color: white; }
 
+/* INSULE DESCHISE (CLASA OPEN) */
+.feature-card.open {
+    max-height: 600px; background: #fff; border: 2px solid var(--primary); transform: translateY(-5px);
+}
+.feature-details {
+    opacity: 0; max-height: 0; overflow: hidden; transition: all 0.5s ease;
+    text-align: left; font-size: 0.9rem; color: #555;
+}
+.feature-details hr { border: 0; border-top: 1px solid #eee; margin: 15px 0; }
+.feature-details p { margin-bottom: 8px; line-height: 1.5; }
+.feature-card.open .feature-details { opacity: 1; max-height: 400px; margin-top: 15px; }
+.expand-icon { margin-top: 15px; color: #ccc; transition: 0.3s; }
+.feature-card.open .expand-icon { transform: rotate(180deg); color: var(--primary); }
+
 /* =========================================
-   5. FORMULARE & CALCULATOR
+   5. CALCULATOR & FORMULARE (MONSTRU)
    ========================================= */
-.request-form-section { padding: 100px 10%; background: #f8f9fa; }
+.request-form-section { padding: 100px 10%; background: #f8f9fa; min-height: 100vh; }
 .section-title { text-align: center; margin-bottom: 50px; }
 .section-title h2 { font-size: 2.5rem; color: var(--dark-blue); margin-bottom: 10px; }
 
 .glass-form-container {
-    background: #fff; border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.08); overflow: hidden;
-    max-width: 1000px; margin: 0 auto; border: 1px solid rgba(0,0,0,0.05);
+    background: #fff; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    overflow: hidden; max-width: 1100px; margin: 0 auto; border: 1px solid rgba(0,0,0,0.05); padding: 40px;
 }
-
 .calculator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; width: 100%; }
 
-.input-group { position: relative; width: 100%; }
+/* Inputuri */
+.input-group { position: relative; width: 100%; margin-bottom: 20px; }
 .input-group input, .input-group textarea {
     width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 10px;
     outline: none; transition: 0.3s; background: #fdfdfd; font-size: 1rem; font-family: inherit;
@@ -252,87 +196,90 @@ body {
     top: -10px; left: 10px; font-size: 0.8rem; color: var(--primary); background: #fff; font-weight: 600;
 }
 
-/* Tabel */
-.table-container {
-    background: white; border-radius: 10px; max-height: 250px; overflow-y: auto;
-    margin-top: 20px; border: 1px solid #eee;
+/* Dropdown Elegant */
+select.custom-select {
+    width: 100%; padding: 15px; border-radius: 10px; appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230066cc%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat; background-position: right 15px top 50%; background-size: 12px auto;
+    cursor: pointer; border: 2px solid #e0e0e0; font-weight: 600; color: var(--dark-blue); background-color: #fdfdfd; outline: none;
 }
+select.custom-select:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(255, 153, 0, 0.1); }
+.hidden { display: none; }
+
+/* Etaje & Checkbox */
+.floor-section { background: #f8fafd; padding: 15px; border-radius: 10px; border: 1px solid #dae1e7; margin-bottom: 20px; }
+.floor-title { font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; display: block; }
+.checkbox-group { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 0.9rem; cursor: pointer; }
+.checkbox-group input { width: 20px; height: 20px; accent-color: var(--primary); }
+
+/* Radio Ajutor */
+.radio-options { display: flex; gap: 20px; margin-bottom: 20px; }
+.radio-label {
+    display: flex; align-items: center; gap: 8px; cursor: pointer; background: #fff; padding: 10px 15px; 
+    border: 2px solid #eee; border-radius: 10px; transition: 0.3s; font-weight: 600; font-size: 0.9rem;
+}
+.radio-label:hover { border-color: var(--primary); }
+.radio-label input:checked + span { color: var(--primary); }
+.radio-label input { accent-color: var(--accent); transform: scale(1.2); }
+.info-note { font-size: 0.8rem; color: #888; margin-top: 5px; font-style: italic; display: block; }
+
+/* Butoane */
+.button {
+    padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: 700; transition: 0.3s;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: none; cursor: pointer; font-family: 'Poppins', sans-serif;
+}
+.btn-glow { background: var(--gradient); color: white; box-shadow: 0 10px 25px rgba(0, 198, 255, 0.4); }
+.btn-glow:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0, 198, 255, 0.6); }
+.btn-outline { background: transparent; border: 2px solid var(--dark-blue); color: var(--dark-blue); }
+.btn-outline:hover { background: var(--dark-blue); color: white; }
+
+/* Vizualizare Duba */
+.van-visual-container {
+    background: #fff; padding: 30px; border-radius: 15px; margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center; border: 1px solid #eee;
+    display: flex; flex-direction: column; align-items: center;
+}
+.van-graphic { position: relative; width: 320px; height: 140px; margin-bottom: 10px; }
+.cargo-box { position: absolute; left: 0; top: 0; width: 230px; height: 110px; border: 3px solid #333; border-radius: 5px; background: #f9f9f9; overflow: hidden; z-index: 1; }
+.fill-level { position: absolute; bottom: 0; left: 0; width: 0%; height: 100%; background: linear-gradient(to right, #4caf50, #81c784); opacity: 0.7; transition: width 0.5s ease; }
+.cargo-lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(90deg, transparent, transparent 38px, rgba(0,0,0,0.05) 39px, rgba(0,0,0,0.05) 40px); z-index: 2; pointer-events: none; }
+.cabin { position: absolute; right: 0; top: 30px; width: 85px; height: 80px; background: #fff; border: 3px solid #333; border-left: none; border-radius: 0 20px 5px 0; z-index: 0; }
+.cabin::before { content: ''; position: absolute; top: 5px; right: 10px; width: 45px; height: 35px; background: #e1f5fe; border: 2px solid #333; border-radius: 0 15px 0 0; }
+.wheel { position: absolute; bottom: 0; width: 40px; height: 40px; background: #222; border-radius: 50%; border: 3px solid #555; z-index: 5; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
+.wheel::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 15px; height: 15px; background: #999; border-radius: 50%; }
+.wheel.rear { left: 40px; bottom: -15px; } .wheel.front { right: 25px; bottom: -15px; }
+.percent-text { position: absolute; top: 50%; left: 35%; transform: translate(-50%, -50%); font-size: 1.5rem; font-weight: 800; color: #333; z-index: 10; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
+.warning-box { margin-top: 25px; font-weight: 600; min-height: 25px; font-size: 0.9rem; }
+
+/* Tabel & Rezultat */
+.table-container { background: white; border-radius: 10px; max-height: 200px; overflow-y: auto; border: 1px solid #eee; margin-top: 20px; }
 #corpuriTable { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-#corpuriTable th {
-    background-color: var(--primary); color: white; padding: 12px; position: sticky; top: 0; z-index: 10;
-}
-#corpuriTable td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; }
-.delete-btn {
-    background: #ff4d4d; color: white; border: none; border-radius: 50%;
-    width: 28px; height: 28px; cursor: pointer; transition: 0.3s;
-    display: flex; align-items: center; justify-content: center; margin: 0 auto;
-}
-.delete-btn:hover { background: #cc0000; transform: scale(1.1); }
-
-/* Input Dimensiuni */
+#corpuriTable th { background-color: var(--primary); color: white; padding: 10px; position: sticky; top: 0; z-index: 10; }
+#corpuriTable td { padding: 8px; border-bottom: 1px solid #eee; text-align: center; }
+.delete-btn { background: #ff4d4d; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
 .dims-inputs { display: flex; gap: 10px; align-items: center; }
-.dims-inputs .input-group { flex: 1; }
-.add-dim-btn {
-    background: var(--accent); color: white; border: none; border-radius: 10px;
-    width: 54px; height: 54px; cursor: pointer; font-size: 1.2rem; transition: 0.3s;
-    flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 2px;
-}
-.add-dim-btn:hover { background: #e68a00; transform: translateY(-2px); }
+.add-dim-btn { background: var(--accent); color: white; border: none; border-radius: 10px; width: 54px; height: 54px; cursor: pointer; font-size: 1.2rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.result-box-highlight { background: var(--dark-blue); color: white; padding: 25px; border-radius: 15px; margin-top: 30px; text-align: center; display: none; }
+.total-price-tag { font-size: 3rem; font-weight: 800; color: var(--accent); display: block; margin: 10px 0; line-height: 1; }
 
-/* Rezultat */
-.result-box-highlight {
-    background: var(--dark-blue); color: white; padding: 25px; border-radius: 15px;
-    margin-top: 30px; text-align: center; animation: slideUp 0.5s ease;
-    box-shadow: 0 15px 30px rgba(0, 51, 102, 0.2);
-}
-@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.total-price-tag {
-    font-size: 3rem; font-weight: 800; color: var(--accent); display: block; margin: 10px 0; line-height: 1;
-}
-
-/* =========================================
-   6. CONTACT
-   ========================================= */
-.contact-section {
-    background: url('poza oameni.png') center/cover no-repeat fixed;
-    position: relative; padding: 100px 10%; text-align: center; color: white;
-}
-.contact-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 51, 102, 0.85);
-}
+/* Contact Section */
+.contact-section { background: url('poza oameni.png') center/cover no-repeat fixed; position: relative; padding: 100px 10%; text-align: center; color: white; }
+.contact-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 51, 102, 0.85); }
 .contact-content { position: relative; z-index: 1; }
-.contact-pill {
-    padding: 15px 30px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
-    color: white; text-decoration: none; border-radius: 50px; backdrop-filter: blur(5px);
-    transition: 0.3s; display: flex; align-items: center; gap: 10px; font-weight: 600;
-}
+.contact-pill { padding: 15px 30px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; text-decoration: none; border-radius: 50px; backdrop-filter: blur(5px); display: inline-flex; align-items: center; gap: 10px; font-weight: 600; margin: 10px; transition: 0.3s; }
 .contact-pill:hover { background: white; color: var(--primary); }
 footer { background: #111; color: #555; text-align: center; padding: 30px; font-size: 0.9rem; }
 
-/* =========================================
-   7. RESPONSIVE
-   ========================================= */
 @media (max-width: 900px) {
     .main-header { background: white; padding: 15px; }
-    .main-nav { 
-        position: absolute; top: 70px; left: 0; width: 100%; background: white;
-        flex-direction: column; padding: 20px; display: none; box-shadow: 0 10px 10px rgba(0,0,0,0.1);
-    }
+    .main-nav { position: absolute; top: 70px; left: 0; width: 100%; background: white; flex-direction: column; padding: 20px; display: none; box-shadow: 0 10px 10px rgba(0,0,0,0.1); }
+    .main-nav a { color: var(--dark-blue); margin-left: 0; margin-bottom: 10px; }
     .main-nav.active { display: flex; }
     .mobile-menu-icon { display: block; }
     .nav-btn-highlight { width: 100%; text-align: center; margin: 10px 0; }
-    
-    .hero-container { flex-direction: column; text-align: center; padding-top: 50px; }
-    .hero-buttons { justify-content: center; }
     .hero-bg-shape { width: 100%; height: 50%; top: 0; border-radius: 0 0 50% 50%; transform: none; }
-    .hero-text h1 { font-size: 2.2rem; }
-    
+    .hero-container { flex-direction: column; text-align: center; padding-top: 50px; }
     .calculator-grid { grid-template-columns: 1fr; gap: 30px; }
-    .glass-form-container { padding: 20px !important; flex-direction: column; }
-    .dims-inputs { flex-wrap: wrap; }
-    .dims-inputs .input-group { min-width: 30%; }
-    .add-dim-btn { width: 100%; margin-top: 10px; }
-    
-    form { grid-template-columns: 1fr !important; }
-    form .input-group { grid-column: span 1 !important; }
+    .glass-form-container { padding: 20px !important; }
+    .dims-inputs { flex-wrap: wrap; } .dims-inputs .input-group { min-width: 30%; } .add-dim-btn { width: 100%; margin-top: 10px; }
 }
