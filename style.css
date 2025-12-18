@@ -98,18 +98,33 @@ body {
     padding: 100px 10% 0; background: #fff; overflow: hidden;
 }
 
+/* 1. Forma Albastră - O facem mai îngustă și o lipim de dreapta */
 .hero-bg-shape {
     position: absolute; 
-    top: -20%; 
-    right: 0;      /* Am schimbat din -10% in 0 ca sa stea lipit de margine */
-    width: 55%;    /* <--- AICI ERA PROBLEMA (95% e prea mult) */
-    height: 150%; 
+    top: 0; 
+    right: 0;       /* Lipit de marginea dreaptă */
+    width: 50%;     /* <--- Lățime redusă la jumătate (era 95%) */
+    height: 100%;   /* Înălțime completă */
     background: var(--gradient); 
-    border-radius: 0 0 0 100px; /* Am rotunjit coltul mai finut */
-    transform: skewX(-10deg); 
+    border-radius: 0 0 0 150px; /* Colț rotunjit mare jos-stânga */
     z-index: 0;
+    /* Am scos "skew" și "top: -20%" pentru un look mai curat */
 }
 
+/* 2. Imaginea - Trucul "mix-blend-mode" face albul transparent */
+.hero-image img { 
+    width: 100%; 
+    max-width: 500px; /* O idee mai mică */
+    height: auto;
+    position: relative;
+    z-index: 2; /* Să fie peste forma albastră */
+    /* --- TRUCUL MAGIC --- */
+    /* Asta face ca albul din poză să devină transparent peste fundalul colorat */
+    mix-blend-mode: multiply; 
+    /* Opțional: dacă poza pare prea întunecată, șterge linia de mai sus */
+    
+    animation: float 6s ease-in-out infinite; 
+}
 .hero-container {
     display: flex; justify-content: space-between; align-items: center; width: 100%; z-index: 1; gap: 50px;
 }
@@ -126,12 +141,7 @@ body {
 .hero-image { flex: 1; text-align: center; }
 
 /* Imagine Hero ajustata */
-.hero-image img { 
-    width: 100%; 
-    max-width: 480px; 
-    height: auto;
-    animation: float 6s ease-in-out infinite; 
-}
+
 @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
 .badge-top {
     background: rgba(0, 102, 204, 0.1); color: var(--primary);
