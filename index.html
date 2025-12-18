@@ -7,7 +7,10 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
     <link rel="stylesheet" href="style.css">
 </head>
@@ -23,7 +26,8 @@
         </div>
         <nav class="main-nav">
             <a href="#acasa" class="active">Acasă</a>
-            <a href="#calculator-section">Calculator</a>
+            <a href="#features">Servicii</a>
+            <a href="#galerie">Galerie</a>
             <a href="index1.html" class="nav-btn-highlight">Cerere Ofertă</a>
             <a href="#contact-section">Contact</a>
         </nav>
@@ -36,10 +40,10 @@
             <div class="hero-text" data-aos="fade-right">
                 <span class="badge-top">Soluții Complete de Transport Brașov</span>
                 <h1>Transport Sigur.<br>Costuri <span class="text-gradient">Transparente.</span></h1>
-                <p><p>Nu mai ghici prețul, ci alege SmartMove pentru mutări și transport marfă din Brașov oriunde în țară, având costuri transparente și garanția siguranței bunurilor tale.</p></p>
+                <p>Nu mai ghici prețul, ci alege SmartMove pentru mutări și transport marfă din Brașov oriunde în țară, având costuri transparente și garanția siguranței bunurilor tale.</p>
                 
                 <div class="hero-buttons">
-                    <a class="button btn-glow" href="#calculator-section">
+                    <a class="button btn-glow" href="index1.html">
                         <i class="fas fa-calculator"></i> Calculator Rapid
                     </a>
                     <a class="button btn-outline" href="index1.html">
@@ -53,18 +57,14 @@
         </div>
     </section>
 
-    <section class="features-section">
+    <section class="features-section" id="features">
         <div class="feature-card" onclick="toggleCard(this)">
             <div class="icon-circle"><i class="fas fa-route"></i></div>
             <h3>Național</h3>
             <p class="short-desc">Curse din Brașov către orice destinație.</p>
-            
             <div class="feature-details">
                 <hr>
-                <p>Oferim servicii complete de transport marfă și mutări pe întreg teritoriul României, cu plecare din Brașov.</p>
-                <p>Indiferent dacă ai nevoie să muți o singură piesă de mobilier sau întreaga locuință într-un alt județ, suntem pregătiți de drum.</p>
-                <p>Planificăm ruta eficient pentru a asigura cel mai scurt timp de livrare și costuri optimizate pentru tine.</p>
-                <p>Siguranța bunurilor tale este prioritatea noastră pe distanțe lungi.</p>
+                <p>Oferim servicii complete de transport marfă și mutări pe întreg teritoriul României, cu plecare din Brașov. Planificăm ruta eficient pentru timp scurt și costuri optimizate.</p>
             </div>
             <i class="fas fa-chevron-down expand-icon"></i>
         </div>
@@ -73,13 +73,9 @@
             <div class="icon-circle"><i class="fas fa-truck-loading"></i></div>
             <h3>Până la 1.5 Tone</h3>
             <p class="short-desc">Mașini spațioase și sigure.</p>
-
             <div class="feature-details">
                 <hr>
-                <p>Flota noastră este formată din autoutilitare de 3.5 tone (masa maximă autorizată), care permit o sarcină utilă generoasă.</p>
-                <p>Dubele sunt carosate special pentru volum, având dimensiuni interioare de până la 3.5m lungime.</p>
-                <p>Suntem echipați cu chingi de ancorare profesionale, folie stretch și pături protectoare.</p>
-                <p>Ideal pentru mutări de apartamente cu 2-3 camere sau transport de marfă paletizată.</p>
+                <p>Autoutilitare de 3.5t cu sarcină utilă generoasă și volum mare (până la 3.5m lungime). Echipate cu chingi, folie și pături protectoare.</p>
             </div>
             <i class="fas fa-chevron-down expand-icon"></i>
         </div>
@@ -88,72 +84,58 @@
             <div class="icon-circle"><i class="fas fa-cube"></i></div>
             <h3>Volum Exact</h3>
             <p class="short-desc">Calculezi spațiul necesar înainte.</p>
-
             <div class="feature-details">
                 <hr>
-                <p>Transparența este cheia serviciilor noastre. Nu plătești "ochiometric", ci bazat pe volumul real ocupat.</p>
-                <p>Folosind calculatorul nostru inteligent, poți vedea exact cum se vor așeza obiectele în duba noastră.</p>
-                <p>Acest sistem te ajută să eviți surprizele neplăcute la preț și să știi exact dacă ai nevoie de unul sau mai multe transporturi.</p>
-                <p>Optimizăm încărcarea pentru a proteja bunurile fragile.</p>
+                <p>Transparență totală. Folosește calculatorul nostru inteligent pentru a vedea exact cum se așează obiectele și pentru a evita surprizele la preț.</p>
             </div>
             <i class="fas fa-chevron-down expand-icon"></i>
         </div>
     </section>
 
-    <section class="request-form-section" id="calculator-section">
-        <div class="section-title" data-aos="fade-down">
-            <h2>Calculator <span class="highlight">Estimativ</span></h2>
-            <p>Adaugă dimensiunile obiectelor pentru a vedea volumul și un cost orientativ.</p>
+    <section class="gallery-section" id="galerie">
+        <div class="section-title" data-aos="fade-up">
+            <h2>Galeria <span class="highlight">Foto</span></h2>
+            <p>Apasă pe imagini pentru a le mări.</p>
+        </div>
+        
+        <div class="swiper mySwiper gallery-slider" data-aos="zoom-in">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="Gemini_Generated_Image_pviwr0pviwr0pviw.png" alt="Duba SmartMove" onclick="openLightbox(this)">
+                </div>
+                <div class="swiper-slide">
+                    <img src="poza_materiale.jpeg" alt="Interior duba" onclick="openLightbox(this)">
+                </div>
+                <div class="swiper-slide">
+                    <img src="poze_materiale.jpeg" alt="Marfă asigurată" onclick="openLightbox(this)">
+                </div>
+                 <div class="swiper-slide">
+                    <img src="poza_motor.jpeg" alt="Motor Întreținut" onclick="openLightbox(this)">
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
         </div>
 
-        <div class="glass-form-container" style="padding: 40px;" data-aos="flip-up">
-            <div class="calculator-grid">
-                
-                <div class="route-details">
-                    <h3 style="color: var(--primary); margin-bottom: 20px;">Detalii Transport</h3>
-                    <div class="modern-form" style="padding: 0; width: 100%;">
-                        <div class="input-group" style="margin-bottom: 20px;">
-                            <input id="start" type="text" placeholder=" ">
-                            <label>Punct Plecare</label>
-                        </div>
-                        <div class="input-group" style="margin-bottom: 20px;">
-                            <input id="end" type="text" placeholder=" ">
-                            <label>Punct Destinație</label>
-                        </div>
-                        <div class="input-group">
-                            <input id="greutate" type="number" placeholder=" ">
-                            <label>Greutate aprox. (kg)</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="object-details">
-                    <h3 style="color: var(--primary); margin-bottom: 20px;">Dimensiuni Obiecte</h3>
-                    
-                    <div class="dims-inputs modern-form" style="padding: 0; width: 100%;">
-                        <div class="input-group"><input id="lungime" type="number" step="0.01" placeholder=" "><label>L (m)</label></div>
-                        <div class="input-group"><input id="latime" type="number" step="0.01" placeholder=" "><label>l (m)</label></div>
-                        <div class="input-group"><input id="inaltime" type="number" step="0.01" placeholder=" "><label>h (m)</label></div>
-                        <button type="button" onclick="adaugaCorp()" class="add-dim-btn"><i class="fas fa-plus"></i></button>
-                    </div>
-
-                    <div class="table-container">
-                        <table id="corpuriTable">
-                            <thead><tr><th>#</th><th>L</th><th>l</th><th>h</th><th>Volum</th><th>Șterge</th></tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
+        <div class="reassurance-box" data-aos="fade-up" data-aos-delay="200">
+            <div class="reassurance-icon">
+                <i class="fas fa-shield-alt"></i>
             </div>
-
-            <div style="text-align: center; margin-top: 40px;">
-                <button id="calcDist" class="button btn-glow"><i class="fas fa-calculator"></i> Calculează Cost</button>
-                <div id="rezultat" class="result-box-highlight" style="display:none;">
-                    <div>Preț Estimativ:</div>
-                    <span class="total-price-tag"><span id="costText">0</span> LEI</span>
-                    <p style="font-size:0.9rem; margin-top:10px;">*Acesta este un preț orientativ.</p>
-                </div>
+            <div class="reassurance-text">
+                <h3>Garanția SmartMove</h3>
+                <p>Noi garantăm și asigurăm siguranța produselor transportate prin profesionalism, echipamente adecvate și o echipă dedicată grijii față de bunurile tale.</p>
             </div>
+        </div>
+    </section>
+
+    <section class="request-form-section" id="calculator-section" style="background: #f8f9fa;">
+        <div class="section-title" data-aos="fade-down">
+            <h2>Calculator <span class="highlight">Estimativ</span></h2>
+            <p>Vrei un preț exact? Mergi la <a href="index1.html" style="color:var(--primary);">Configuratorul Avansat</a>.</p>
+        </div>
+        <div style="text-align:center; padding-bottom:50px;">
+             <a href="index1.html" class="button btn-glow" style="font-size:1.5rem; padding: 20px 40px;">
+                <i class="fas fa-calculator"></i> DESCHIDE CALCULATORUL
+             </a>
         </div>
     </section>
 
@@ -162,7 +144,7 @@
         <div class="contact-content">
             <h2>Contactează-ne</h2>
             <div class="contact-buttons">
-                <a href="tel:0712345678" class="contact-pill"><i class="fas fa-phone-alt"></i> 0712 345 678</a>
+                <a href="tel:40712345678" class="contact-pill"><i class="fas fa-phone-alt"></i> 0712 345 678</a>
                 <a href="mailto:C_1988_g@yahoo.com" class="contact-pill"><i class="fas fa-envelope"></i> Email</a>
             </div>
         </div>
@@ -170,15 +152,28 @@
 
     <footer><p>© 2025 SmartMove by LJK TRANSPORT.</p></footer>
 
+    <a href="https://wa.me/40767107084?text=Salut!%20Vreau%20o%20ofertă." class="whatsapp-mini" target="_blank">
+        <i class="fab fa-whatsapp" style="font-size: 18px;"></i>
+        <span>Contactează-ne direct pe WhatsApp</span>
+    </a>
+
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="Imagine Marita">
+    </div>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
     <script>
         AOS.init({ once: true });
+        
         window.addEventListener('scroll', () => {
             document.querySelector('.main-header').classList.toggle('sticky', window.scrollY > 0);
         });
+        
         function toggleMenu() { document.querySelector('.main-nav').classList.toggle('active'); }
 
-        // LOGICA INSULE (CARDURI)
         function toggleCard(clickedCard) {
             const allCards = document.querySelectorAll('.feature-card');
             const isAlreadyOpen = clickedCard.classList.contains('open');
@@ -186,32 +181,44 @@
             if (!isAlreadyOpen) { clickedCard.classList.add('open'); }
         }
 
-        // LOGICA CALCULATOR (SIMPLE)
-        let corpuri = [];
-        function adaugaCorp() {
-            const L = parseFloat(document.getElementById("lungime").value);
-            const l = parseFloat(document.getElementById("latime").value);
-            const h = parseFloat(document.getElementById("inaltime").value);
-            if (!L || !l || !h) return alert("Introdu dimensiunile!");
-            corpuri.push({L, l, h, volum: L*l*h});
-            afiseazaCorpuri();
-            document.getElementById("lungime").value = "";
-            document.getElementById("latime").value = "";
-            document.getElementById("inaltime").value = "";
-        }
-        function stergeCorp(index) { corpuri.splice(index, 1); afiseazaCorpuri(); }
-        function afiseazaCorpuri() {
-            const tbody = document.querySelector("#corpuriTable tbody");
-            tbody.innerHTML = "";
-            corpuri.forEach((c, i) => {
-                tbody.innerHTML += `<tr><td>${i+1}</td><td>${c.L}</td><td>${c.l}</td><td>${c.h}</td><td>${c.volum.toFixed(2)}</td><td><button class="delete-btn" onclick="stergeCorp(${i})">X</button></td></tr>`;
-            });
-        }
-        document.getElementById("calcDist").addEventListener("click", function() {
-            const distKm = 250; // Simulare
-            document.getElementById("costText").textContent = distKm * 4;
-            document.getElementById("rezultat").style.display = "block";
+        // Configurare Slider
+        var swiper = new Swiper(".mySwiper", {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 0,
+                depth: 100,
+                modifier: 2,
+                slideShadows: true,
+            },
+            loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
         });
+
+        // --- FUNCTII LIGHTBOX (Marire Poza) ---
+        function openLightbox(imgElement) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            
+            // Luam sursa pozei pe care s-a dat click
+            lightboxImg.src = imgElement.src;
+            // Afisam lightbox-ul
+            lightbox.style.display = "flex";
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = "none";
+        }
     </script>
 </body>
 </html>
