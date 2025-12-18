@@ -99,9 +99,15 @@ body {
 }
 
 .hero-bg-shape {
-    position: absolute; top: -20%; right: -10%; 
-    width: 95%; height: 150%; 
-    background: var(--gradient); border-radius: 0 0 0 60%; transform: skewX(-10deg); z-index: 0;
+    position: absolute; 
+    top: -20%; 
+    right: 0;      /* Am schimbat din -10% in 0 ca sa stea lipit de margine */
+    width: 55%;    /* <--- AICI ERA PROBLEMA (95% e prea mult) */
+    height: 150%; 
+    background: var(--gradient); 
+    border-radius: 0 0 0 100px; /* Am rotunjit coltul mai finut */
+    transform: skewX(-10deg); 
+    z-index: 0;
 }
 
 .hero-container {
