@@ -100,7 +100,7 @@ body {
 
 .hero-bg-shape {
     position: absolute; top: -20%; right: -10%; 
-    width: 70%; height: 150%; 
+    width: 65%; height: 300%; 
     background: var(--gradient); border-radius: 0 0 0 60%; transform: skewX(-10deg); z-index: 0;
 }
 
