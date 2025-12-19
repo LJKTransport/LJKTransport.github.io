@@ -1,600 +1,515 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartMove | Cerere Ofertă</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartMove | Cerere Ofertă</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
-<a href="https://wa.me/40712345678?text=Salut!%20Vreau%20o%20ofertă." class="whatsapp-mini" target="_blank">
-    <i class="fab fa-whatsapp" style="font-size: 18px;"></i>
-    <span>Contactează-ne direct pe WhatsApp</span>
-</a>
 <body>
 
-    <header class="main-header sticky">
-        <div class="logo-container">
-            <img class="brand-logo" src="ljk.png" alt="Logo"> 
-            <div class="logo-text-stack">
-                <span class="site-name main-title">SmartMove</span>
-                <span class="sub-title">by LJK Transport | din 2018</span>
+<a href="https://wa.me/40712345678?text=Salut!%20Vreau%20o%20ofertă." class="whatsapp-mini" target="_blank">
+<i class="fab fa-whatsapp" style="font-size: 18px;"></i>
+<span>WhatsApp Rapid</span>
+</a>
+
+<header class="main-header sticky">
+<div class="logo-container">
+<img class="brand-logo" src="ljk.png" alt="Logo">
+<div class="logo-text-stack">
+<span class="site-name main-title">SmartMove</span>
+<span class="sub-title">by LJK Transport</span>
+</div>
+</div>
+<nav class="main-nav">
+<a href="index.html">Acasă</a>
+<a href="index.html#calculator-section">Calculator</a>
+<a href="cerere.html" class="active nav-btn-highlight">Cerere Ofertă</a>
+<a href="index.html#contact-section">Contact</a>
+</nav>
+<div class="mobile-menu-icon" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+</header>
+
+<section class="request-form-section">
+<div class="section-title" data-aos="fade-down">
+<h2>Configurare <span class="highlight">Transport</span></h2>
+<p>Completează detaliile pentru o ofertă precisă.</p>
+</div>
+
+<div class="glass-form-container" data-aos="fade-up">
+<form id="offerForm" onsubmit="event.preventDefault();">
+<div class="calculator-grid">
+
+<div class="client-details">
+    <h3 style="margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom:10px;">1. Detalii Generale</h3>
+    <div class="modern-form">
+        <div class="input-group">
+            <input type="text" id="nume" placeholder=" " required>
+            <label>Nume Client</label>
+        </div>
+        <div class="input-group">
+            <input type="tel" id="telefon" placeholder=" " required>
+            <label>Telefon</label>
+        </div>
+        <div class="input-group">
+            <input type="email" id="emailClient" placeholder=" " required>
+            <label>Email (pentru confirmare)</label>
+        </div>
+        
+        <div class="input-group" style="margin-top:15px;">
+            <input type="date" id="dataMutare" required style="padding-top:15px;">
+            <label style="top:-10px; font-size:0.8rem;">Dată Dorită Mutare</label>
+        </div>
+    </div>
+
+    <h3 style="margin: 30px 0 20px; border-bottom: 2px solid #eee; padding-bottom:10px;">2. Traseu & Adrese Exacte</h3>
+    <div class="modern-form">
+        
+        <div class="input-group">
+            <select id="tipLocatie" class="custom-select" onchange="schimbaTipLocatie()">
+                <option value="local">Local (Brașov Oraș)</option>
+                <option value="metro">Metropolitan (Împrejurimi)</option>
+                <option value="national">Național (Exterior)</option>
+            </select>
+            <label style="top: -10px; left: 10px; font-size: 0.8rem; background: #fff;">Tip Transport</label>
+        </div>
+
+        <div class="input-group hidden" id="divMetro">
+            <select id="listaMetro" class="custom-select" onchange="calculeazaTotal()">
+                <option value="0">Alege Localitatea...</option>
+                <option value="120">Poiana Brașov (120 Lei)</option>
+                <option value="120">Cristian, Hărman, Stupini (120 Lei)</option>
+                <option value="120">Ghimbav, Sânpetru, Săcele (120 Lei)</option>
+                <option value="150">Bran, Râșnov, Codlea (150 Lei)</option>
+                <option value="200">Fundata, Zărnești (200 Lei)</option>
+            </select>
+        </div>
+
+        <div id="divTraseuGoogle" class="hidden" style="margin-bottom: 20px; background: #f0f7ff; padding: 15px; border-radius: 10px; border: 1px solid #cce5ff;">
+            <div class="input-group" style="margin-bottom: 15px;">
+                <input type="text" id="routeStart" placeholder=" ">
+                <label>Localitate Plecare (Oraș)</label>
+            </div>
+            <div class="input-group">
+                <input type="text" id="routeEnd" placeholder=" ">
+                <label>Localitate Sosire (Oraș)</label>
+            </div>
+            <div style="font-weight: bold; color: var(--brand-blue); font-size: 0.9rem; margin-top: 10px;">
+                <i class="fas fa-road"></i> Distanță: <span id="distantaText">0 km</span>
             </div>
         </div>
-        <nav class="main-nav">
-            <a href="index.html">Acasă</a>
-            <a href="index.html#calculator-section">Calculator</a>
-            <a href="cerere.html" class="active nav-btn-highlight">Cerere Ofertă</a>
-            <a href="index.html#contact-section">Contact</a>
-        </nav>
-        <div class="mobile-menu-icon" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
-    </header>
 
-    <section class="request-form-section">
-        <div class="section-title" data-aos="fade-down">
-            <h2>Configurare <span class="highlight">Transport</span></h2>
-            <p>Alege locația, etajele și obiectele pentru un preț corect.</p>
+        <div style="background: #fff; padding: 15px; border: 1px solid #ddd; border-radius: 8px; margin-top: 15px;">
+            <h4 style="margin-bottom:15px; font-size:1rem; color:#333;"><i class="fas fa-map-marker-alt" style="color:green;"></i> Punct Încărcare (Plecare)</h4>
+            <div class="input-group">
+                <input type="text" id="adresaPlecareExacta" placeholder=" " required>
+                <label>Adresa Exactă (Strada, Nr, Bloc, Scara)</label>
+            </div>
+            <div class="floor-section">
+                <div class="input-group" style="margin-bottom:10px;">
+                    <input type="number" id="etajPlecare" placeholder=" " min="0" max="20" oninput="calculeazaTotal()">
+                    <label>Etaj</label>
+                </div>
+                <label class="checkbox-group">
+                    <input type="checkbox" id="liftPlecare" onchange="calculeazaTotal()">
+                    <span>Are Lift?</span>
+                </label>
+            </div>
         </div>
 
-        <div class="glass-form-container" data-aos="fade-up">
-            
-            <form id="offerForm" onsubmit="event.preventDefault();">
-                <div class="calculator-grid">
-                    
-                    <div class="client-details">
-                        <h3 style="color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom:10px;">
-                            1. Unde Transportăm?
-                        </h3>
-                        
-                        <div class="modern-form">
-                            <div class="input-group">
-                                <select id="tipLocatie" class="custom-select" onchange="schimbaTipLocatie()">
-                                    <option value="local">Local (Brașov Oraș)</option>
-                                    <option value="metro">Metropolitan (Împrejurimi)</option>
-                                    <option value="national">Național (Exterior)</option>
-                                </select>
-                                <label style="top: -10px; left: 10px; font-size: 0.8rem; color: var(--primary); background: #fff;">Tip Transport</label>
-                            </div>
-
-                            <div class="input-group hidden" id="divMetro">
-                                <select id="listaMetro" class="custom-select" onchange="calculeazaTotal()">
-                                    <option value="0">Alege Localitatea...</option>
-                                    <option value="120">Poiana Brașov (120 Lei)</option>
-                                    <option value="120">Cristian (120 Lei)</option>
-                                    <option value="120">Hărman (120 Lei)</option>
-                                    <option value="120">Stupini (120 Lei)</option>
-                                    <option value="120">Ghimbav (120 Lei)</option>
-                                    <option value="120">Sânpetru (120 Lei)</option>
-                                    <option value="120">Săcele (120 Lei)</option>
-                                    <option value="120">Tărlungeni (120 Lei)</option>
-                                    <option value="150">Bran (150 Lei)</option>
-                                    <option value="150">Râșnov (150 Lei)</option>
-                                    <option value="150">Moieciu de Jos (150 Lei)</option>
-                                    <option value="150">Prejmer (150 Lei)</option>
-                                    <option value="150">Codlea (150 Lei)</option>
-                                    <option value="150">Hălchiu (150 Lei)</option>
-                                    <option value="200">Fundata (200 Lei)</option>
-                                    <option value="200">Zărnești (200 Lei)</option>
-                                </select>
-                                <small class="info-note">*Pentru abateri >5km de centru, prețul se poate ajusta.</small>
-                            </div>
-
-                            <div id="divTraseuGoogle" class="hidden" style="margin-bottom: 20px; background: #f0f7ff; padding: 15px; border-radius: 10px; border: 1px solid #cce5ff;">
-                                <div class="input-group" style="margin-bottom: 15px;">
-                                    <input type="text" id="routeStart" placeholder=" " required>
-                                    <label>Localitate Plecare</label>
-                                </div>
-                                <div class="input-group">
-                                    <input type="text" id="routeEnd" placeholder=" " required>
-                                    <label>Localitate Sosire</label>
-                                </div>
-                                <div style="font-weight: bold; color: var(--primary); font-size: 0.9rem; margin-top: 10px;">
-                                    <i class="fas fa-road"></i> Distanță calculată: <span id="distantaText">0 km</span>
-                                </div>
-                                <small class="info-note">*Distanța se calculează automat.</small>
-                            </div>
-                        </div>
-
-                        <h3 style="color: var(--primary); margin: 30px 0 20px; border-bottom: 2px solid #eee; padding-bottom:10px;">
-                            2. Acces Clădire
-                        </h3>
-
-                        <div class="floor-section">
-                            <span class="floor-title"><i class="fas fa-arrow-circle-up"></i> La Plecare:</span>
-                            <div class="input-group" style="margin-bottom:10px;">
-                                <input type="number" id="etajPlecare" placeholder=" " min="0" max="20" oninput="calculeazaTotal()">
-                                <label>Etaj (0 = Parter/Casă)</label>
-                            </div>
-                            <label class="checkbox-group">
-                                <input type="checkbox" id="liftPlecare" onchange="calculeazaTotal()">
-                                <span>Clădirea are Lift?</span>
-                            </label>
-                        </div>
-
-                        <div class="floor-section">
-                            <span class="floor-title"><i class="fas fa-arrow-circle-down"></i> La Sosire:</span>
-                            <div class="input-group" style="margin-bottom:10px;">
-                                <input type="number" id="etajSosire" placeholder=" " min="0" max="20" oninput="calculeazaTotal()">
-                                <label>Etaj (0 = Parter/Casă)</label>
-                            </div>
-                            <label class="checkbox-group">
-                                <input type="checkbox" id="liftSosire" onchange="calculeazaTotal()">
-                                <span>Clădirea are Lift?</span>
-                            </label>
-                        </div>
-
-                        <h3 style="color: var(--primary); margin: 30px 0 20px; border-bottom: 2px solid #eee; padding-bottom:10px;">
-                            3. Manipulare Marfă
-                        </h3>
-                        <div class="radio-options">
-                            <label class="radio-label">
-                                <input type="radio" name="ajutor" value="nu" checked onchange="calculeazaTotal()">
-                                <span>Am eu ajutor</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="ajutor" value="da" onchange="calculeazaTotal()">
-                                <span>Doresc ajutor personal</span>
-                            </label>
-                        </div>
-
-                        <div class="modern-form">
-                            <div class="input-group">
-                                <input type="text" id="nume" placeholder=" ">
-                                <label>Nume Client</label>
-                            </div>
-                            <div class="input-group">
-                                <input type="tel" id="telefon" placeholder=" ">
-                                <label>Telefon</label>
-                            </div>
-                         </div>
-
-                    </div>
-
-                    <div class="load-details">
-                        <h3 style="color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom:10px;">
-                            4. Configurare Încărcătură
-                        </h3>
-
-                        <div class="van-visual-container">
-                            <h4 id="vanTitle" style="margin-bottom:10px; color:var(--dark-blue);">Vehicul 1</h4>
-                            
-                            <div class="van-graphic">
-                                <div class="cargo-box">
-                                    <div class="cargo-lines"></div>
-                                    <div class="fill-level" id="vanFill"></div>
-                                </div>
-                                <div class="cabin"></div>
-                                <div class="wheel rear"></div>
-                                <div class="wheel front"></div>
-                                <div class="percent-text" id="fillPercent">0%</div>
-                            </div>
-                            
-                            <p style="font-size:0.9rem; color:#666; margin-top: 10px;">
-                                <span id="infoVehicule">Vehicul 1:</span> 
-                                <strong id="totalVolDisplay">0.00</strong> / <span id="capMaximaDisplay">9.12</span> m³
-                            </p>
-                            
-                            <div id="warningMsg" class="warning-box"></div>
-                            
-                            <button type="button" id="btnEliminaVan" class="button btn-outline hidden" onclick="eliminaVehicul()" style="margin-top:15px; font-size:0.9rem; padding:8px 20px; border-color: #f44336; color: #f44336;">
-                                <i class="fas fa-trash-alt"></i> Elimină un Transport
-                            </button>
-
-                            <button type="button" id="btnExtraVan" class="button btn-outline hidden" onclick="adaugaVehicul()" style="margin-top:10px; font-size:0.9rem; padding:8px 20px;">
-                                <i class="fas fa-truck-medical"></i> Doresc Încă un Transport
-                            </button>
-                            
-                            <a href="index.html#contact-section" id="btnContactUrgent" class="button btn-glow hidden" style="background:red; margin-top:10px;">
-                                <i class="fas fa-phone"></i> Contactează-ne (Volum Mare)
-                            </a>
-                        </div>
-
-                        <p style="font-size:0.9rem; margin-bottom:5px; font-weight:600;">Adaugă obiecte (dimensiuni în metri):</p>
-                        
-                        <div class="dims-inputs modern-form">
-                            <div class="input-group"><input id="lungime" type="number" step="0.01" placeholder=" "><label>L (m)</label></div>
-                            <div class="input-group"><input id="latime" type="number" step="0.01" placeholder=" "><label>l (m)</label></div>
-                            <div class="input-group"><input id="inaltime" type="number" step="0.01" placeholder=" "><label>h (m)</label></div>
-                            <button type="button" onclick="adaugaSiVerifica()" class="add-dim-btn"><i class="fas fa-plus"></i></button>
-                        </div>
-
-                        <div class="table-container">
-                            <table id="corpuriTable">
-                                <thead><tr><th>#</th><th>L</th><th>l</th><th>h</th><th>m³</th><th>X</th></tr></thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                    </div>
+        <div style="background: #fff; padding: 15px; border: 1px solid #ddd; border-radius: 8px; margin-top: 15px;">
+            <h4 style="margin-bottom:15px; font-size:1rem; color:#333;"><i class="fas fa-flag-checkered" style="color:red;"></i> Punct Descărcare (Sosire)</h4>
+            <div class="input-group">
+                <input type="text" id="adresaSosireExacta" placeholder=" " required>
+                <label>Adresa Exactă (Strada, Nr, Bloc, Scara)</label>
+            </div>
+            <div class="floor-section">
+                <div class="input-group" style="margin-bottom:10px;">
+                    <input type="number" id="etajSosire" placeholder=" " min="0" max="20" oninput="calculeazaTotal()">
+                    <label>Etaj</label>
                 </div>
-
-                <div id="zonaRezultat" style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-                    <div class="result-box-highlight" id="boxPret" style="display:block; animation:none; background: #fff; color:var(--text); box-shadow:none; border: 2px dashed var(--primary);">
-                        <h3 style="color:var(--dark-blue);">Preț Estimativ Total:</h3>
-                        <span class="total-price-tag" style="color:var(--primary); font-size: 3.5rem;">
-                            <span id="pretFinal">100</span> LEI
-                        </span>
-                        <div id="detaliiDiscount" style="color:green; font-weight:bold; display:none;">
-                            <i class="fas fa-check-circle"></i> Discount 5% aplicat pentru transport multiplu!
-                        </div>
-                        <p style="font-size:0.8rem; color:#888; margin-top:10px;">
-                            *Include transport, etaje și manipulare (dacă este selectat).
-                        </p>
-                    </div>
-
-                    <div id="msgNationalError" class="result-box-highlight hidden" style="background: #fff8f8; border: 2px solid red; color: red;">
-                        <h3><i class="fas fa-exclamation-circle"></i> Traseu Complex</h3>
-                        <p>Pentru curse naționale cu mai multe vehicule, vă rugăm să ne contactați telefonic pentru o ofertă personalizată.</p>
-                        <a href="tel:0712345678" class="button btn-glow" style="margin-top:10px;">Sună Acum</a>
-                    </div>
-
-                    <button type="button" onclick="trimiteCerere()" class="button btn-glow" style="width: 100%; max-width: 400px; font-size: 1.2rem; margin-top:20px;">
-                        Trimite Comanda <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </form>
+                <label class="checkbox-group">
+                    <input type="checkbox" id="liftSosire" onchange="calculeazaTotal()">
+                    <span>Are Lift?</span>
+                </label>
+            </div>
         </div>
-    </section>
 
-    <footer><p>© 2025 SmartMove by LJK TRANSPORT.</p></footer>
+    </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWzc3R6DfkoKbVMIQnucgHbf3QPtz_wBM&libraries=places&callback=initMap" async defer></script>
+    <h3 style="margin: 30px 0 20px; border-bottom: 2px solid #eee; padding-bottom:10px;">3. Servicii Manipulare</h3>
+    <div class="radio-options">
+        <label class="radio-label">
+            <input type="radio" name="ajutor" value="nu" checked onchange="calculeazaTotal()">
+            <span>Nu doresc manipulare (Am ajutor)</span>
+        </label>
+        <label class="radio-label">
+            <input type="radio" name="ajutor" value="da" onchange="calculeazaTotal()">
+            <span>Doresc hamali (Manipulare inclusă)</span>
+        </label>
+    </div>
+</div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWzc3R6DfkoKbVMIQnucgHbf3QPtz_wBM&libraries=places&callback=initMap" async defer></script>
+<div class="load-details">
+    <h3 style="margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom:10px;">4. Lista Obiecte</h3>
+    <div class="van-visual-container">
+        <h4 id="vanTitle" style="margin-bottom:10px; color:var(--dark-blue);">Vehicul 1</h4>
+        <div class="van-graphic">
+            <div class="cargo-box">
+                <div class="cargo-lines"></div>
+                <div class="fill-level" id="vanFill"></div>
+            </div>
+            <div class="cabin"></div>
+            <div class="wheel rear"></div>
+            <div class="wheel front"></div>
+            <div class="percent-text" id="fillPercent">0%</div>
+        </div>
+        <p style="font-size:0.9rem; color:#666; margin-top: 10px;">
+            <span id="infoVehicule">Vehicul 1:</span>
+            <strong id="totalVolDisplay">0.00</strong> / <span id="capMaximaDisplay">9.12</span> m³
+        </p>
+        <div id="warningMsg" class="warning-box"></div>
+        <button type="button" id="btnEliminaVan" class="button btn-outline hidden" onclick="eliminaVehicul()" style="margin-top:15px; color: red; border-color: red;">
+            <i class="fas fa-trash-alt"></i> Elimină al doilea vehicul
+        </button>
+        <button type="button" id="btnExtraVan" class="button btn-outline hidden" onclick="adaugaVehicul()" style="margin-top:10px;">
+            <i class="fas fa-truck-medical"></i> Mai am marfă (Vehicul 2)
+        </button>
+        <a href="index.html#contact-section" id="btnContactUrgent" class="button btn-glow hidden" style="background:red; margin-top:10px;">
+            <i class="fas fa-phone"></i> Sună-ne (Volum Foarte Mare)
+        </a>
+    </div>
 
-    <script>
-        AOS.init();
-        function toggleMenu() { document.querySelector('.main-nav').classList.toggle('active'); }
+    <p style="font-size:0.9rem; margin-bottom:5px; font-weight:600;">Adaugă dimensiuni (L x l x h):</p>
+    <div class="dims-inputs modern-form">
+        <div class="input-group"><input id="lungime" type="number" step="0.01" placeholder=" "><label>L (m)</label></div>
+        <div class="input-group"><input id="latime" type="number" step="0.01" placeholder=" "><label>l (m)</label></div>
+        <div class="input-group"><input id="inaltime" type="number" step="0.01" placeholder=" "><label>h (m)</label></div>
+        <button type="button" onclick="adaugaSiVerifica()" class="add-dim-btn"><i class="fas fa-plus"></i></button>
+    </div>
+    <div class="table-container">
+        <table id="corpuriTable">
+            <thead><tr><th>#</th><th>Dimensiuni</th><th>Volum</th><th>Sterge</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+</div>
 
-        // --- VARIABILE GLOBALE ---
-        const MAX_L = 3.5;
-        const MAX_l = 1.4;
-        const MAX_h = 1.9;
+<div id="zonaRezultat" style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+<div class="result-box-highlight" id="boxPret" style="display:block; border: 2px dashed var(--primary);">
+    <h3 style="color:var(--dark-blue);">Preț Estimativ:</h3>
+    <span class="total-price-tag" style="color:var(--brand-red); font-size: 3.5rem;">
+        <span id="pretFinal">100</span> LEI
+    </span>
+    <div id="detaliiDiscount" style="color:green; font-weight:bold; display:none;">
+        <i class="fas fa-check-circle"></i> Discount 5% pentru flotă!
+    </div>
+    <p style="font-size:0.8rem; color:#888; margin-top:10px;">*Prețul este orientativ și se confirmă telefonic.</p>
+</div>
+
+<div id="msgNationalError" class="result-box-highlight hidden" style="background: #fff8f8; border: 2px solid red; color: red;">
+    <h3><i class="fas fa-exclamation-circle"></i> Traseu Complex</h3>
+    <p>Contactează-ne pentru o ofertă personalizată pe distanțe lungi.</p>
+    <a href="tel:0712345678" class="button btn-glow" style="margin-top:10px;">Sună Acum</a>
+</div>
+
+<button type="button" onclick="trimiteCerere()" class="button btn-glow" style="width: 100%; max-width: 400px; font-size: 1.2rem; margin-top:20px;">
+    Trimite Comanda Fermă <i class="fas fa-paper-plane"></i>
+</button>
+</div>
+</form>
+</div>
+</section>
+
+<footer><p>© 2025 SmartMove by LJK TRANSPORT.</p></footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWzc3R6DfkoKbVMIQnucgHbf3QPtz_wBM&libraries=places&callback=initMap" async defer></script>
+
+<script>
+AOS.init();
+function toggleMenu() { document.querySelector('.main-nav').classList.toggle('active'); }
+
+// --- CONFIGURARE ---
+(function() { emailjs.init("jFVSCsGCl98ogZ4eQ"); })(); // Public Key
+const EMAIL_ADMIN = "contact@ljktransport.ro"; // <--- PUNE ADRESA TA AICI
+// -------------------
+
+const MAX_L = 3.5; const MAX_l = 1.4; const MAX_h = 1.9;
+const CAPACITATE_DUBA_REALA = 9.31;
+const CAPACITATE_UTILIZABILA = CAPACITATE_DUBA_REALA * 0.98;
+
+let corpuri = [];
+let nrVehicule = 1;
+let maxVolumCurent = CAPACITATE_UTILIZABILA;
+let kmCalculati = 0;
+
+function salveazaProgres() {
+    const data = {
+        nume: document.getElementById("nume").value,
+        telefon: document.getElementById("telefon").value,
+        emailClient: document.getElementById("emailClient").value,
+        dataMutare: document.getElementById("dataMutare").value, // salvam si data
+        tipLocatie: document.getElementById("tipLocatie").value,
+        listaMetro: document.getElementById("listaMetro").value,
+        routeStart: document.getElementById("routeStart").value,
+        routeEnd: document.getElementById("routeEnd").value,
+        adresaPlecareExacta: document.getElementById("adresaPlecareExacta").value,
+        adresaSosireExacta: document.getElementById("adresaSosireExacta").value,
+        etajPlecare: document.getElementById("etajPlecare").value,
+        liftPlecare: document.getElementById("liftPlecare").checked,
+        etajSosire: document.getElementById("etajSosire").value,
+        liftSosire: document.getElementById("liftSosire").checked,
+        ajutor: document.querySelector('input[name="ajutor"]:checked').value,
+        corpuri: corpuri,
+        nrVehicule: nrVehicule,
+        kmCalculati: kmCalculati
+    };
+    localStorage.setItem("smartMoveData", JSON.stringify(data));
+}
+
+function incarcaProgres() {
+    const saved = localStorage.getItem("smartMoveData");
+    if (saved) {
+        const d = JSON.parse(saved);
+        document.getElementById("nume").value = d.nume || "";
+        document.getElementById("telefon").value = d.telefon || "";
+        document.getElementById("emailClient").value = d.emailClient || "";
+        document.getElementById("dataMutare").value = d.dataMutare || "";
+        document.getElementById("tipLocatie").value = d.tipLocatie || "local";
+        document.getElementById("listaMetro").value = d.listaMetro || "0";
+        document.getElementById("routeStart").value = d.routeStart || "";
+        document.getElementById("routeEnd").value = d.routeEnd || "";
+        document.getElementById("adresaPlecareExacta").value = d.adresaPlecareExacta || "";
+        document.getElementById("adresaSosireExacta").value = d.adresaSosireExacta || "";
+        document.getElementById("etajPlecare").value = d.etajPlecare || "";
+        document.getElementById("liftPlecare").checked = d.liftPlecare;
+        document.getElementById("etajSosire").value = d.etajSosire || "";
+        document.getElementById("liftSosire").checked = d.liftSosire;
         
-        const CAPACITATE_DUBA_REALA = 9.31;
-        const CAPACITATE_UTILIZABILA = CAPACITATE_DUBA_REALA * 0.98; // aprox 9.12 m3
+        const radios = document.getElementsByName("ajutor");
+        radios.forEach(r => { if (r.value === d.ajutor) r.checked = true; });
 
-        let corpuri = [];
-        let nrVehicule = 1; 
-        let maxVolumCurent = CAPACITATE_UTILIZABILA;
-        let kmCalculati = 0; 
-
-        // --- SALVARE SI INCARCARE AUTOMATA (MEMORIE) ---
+        corpuri = d.corpuri || [];
+        kmCalculati = d.kmCalculati || 0;
+        if(kmCalculati > 0) document.getElementById("distantaText").innerText = kmCalculati + " km";
+        if(d.nrVehicule === 2) adaugaVehicul(false);
         
-        // 1. Functia care salveaza tot
-        function salveazaProgres() {
-            const dateFormular = {
-                tipLocatie: document.getElementById("tipLocatie").value,
-                listaMetro: document.getElementById("listaMetro").value,
-                routeStart: document.getElementById("routeStart").value,
-                routeEnd: document.getElementById("routeEnd").value,
-                etajPlecare: document.getElementById("etajPlecare").value,
-                liftPlecare: document.getElementById("liftPlecare").checked,
-                etajSosire: document.getElementById("etajSosire").value,
-                liftSosire: document.getElementById("liftSosire").checked,
-                ajutor: document.querySelector('input[name="ajutor"]:checked').value,
-                nume: document.getElementById("nume").value,
-                telefon: document.getElementById("telefon").value,
-                corpuri: corpuri,
-                nrVehicule: nrVehicule,
-                kmCalculati: kmCalculati
-            };
-            localStorage.setItem("smartMoveData", JSON.stringify(dateFormular));
-        }
+        schimbaTipLocatie();
+        updateUI();
+        calculeazaTotal();
+    }
+}
 
-        // 2. Functia care incarca datele cand intri pe pagina
-        function incarcaProgres() {
-            const dateSalvate = localStorage.getItem("smartMoveData");
-            if (dateSalvate) {
-                const date = JSON.parse(dateSalvate);
+document.addEventListener("DOMContentLoaded", () => {
+    incarcaProgres();
+    document.querySelectorAll("input, select").forEach(el => {
+        el.addEventListener("input", salveazaProgres);
+        el.addEventListener("change", salveazaProgres);
+    });
+});
 
-                // Restauram valorile simple
-                document.getElementById("tipLocatie").value = date.tipLocatie || "local";
-                document.getElementById("listaMetro").value = date.listaMetro || "0";
-                document.getElementById("routeStart").value = date.routeStart || "";
-                document.getElementById("routeEnd").value = date.routeEnd || "";
-                document.getElementById("etajPlecare").value = date.etajPlecare || "";
-                document.getElementById("liftPlecare").checked = date.liftPlecare;
-                document.getElementById("etajSosire").value = date.etajSosire || "";
-                document.getElementById("liftSosire").checked = date.liftSosire;
-                document.getElementById("nume").value = date.nume || "";
-                document.getElementById("telefon").value = date.telefon || "";
-                
-                // Restauram radio button ajutor
-                const radios = document.getElementsByName("ajutor");
-                radios.forEach(r => {
-                    if (r.value === date.ajutor) r.checked = true;
-                });
+function initMap() {
+    const p = new google.maps.places.Autocomplete(document.getElementById("routeStart"));
+    const s = new google.maps.places.Autocomplete(document.getElementById("routeEnd"));
+    p.addListener("place_changed", () => { calculeazaDistantaGoogle(); salveazaProgres(); });
+    s.addListener("place_changed", () => { calculeazaDistantaGoogle(); salveazaProgres(); });
+}
 
-                // Restauram variabile complexe
-                corpuri = date.corpuri || [];
-                kmCalculati = date.kmCalculati || 0;
-                
-                if (kmCalculati > 0) {
+function calculeazaDistantaGoogle() {
+    const org = document.getElementById("routeStart").value;
+    const dest = document.getElementById("routeEnd").value;
+    if (org && dest) {
+        new google.maps.DistanceMatrixService().getDistanceMatrix(
+            { origins: [org], destinations: [dest], travelMode: 'DRIVING', unitSystem: google.maps.UnitSystem.METRIC },
+            (resp, status) => {
+                if (status === 'OK' && resp.rows[0].elements[0].status === "OK") {
+                    kmCalculati = Math.ceil(resp.rows[0].elements[0].distance.value / 1000);
                     document.getElementById("distantaText").innerText = kmCalculati + " km";
+                    calculeazaTotal();
+                    salveazaProgres();
                 }
-
-                // Restauram Vehicule (daca erau 2)
-                if (date.nrVehicule === 2) {
-                    adaugaVehicul(false); // false = nu salva iar, doar executa vizual
-                }
-
-                // Actualizam UI
-                schimbaTipLocatie();
-                updateUI();
-                calculeazaTotal();
             }
-        }
+        );
+    }
+}
 
-        // Adaugam ascultatori pe TOATE inputurile ca sa salvam la fiecare tasta apasata
-        document.addEventListener("DOMContentLoaded", () => {
-            incarcaProgres(); // Incarcam la inceput
+function schimbaTipLocatie() {
+    const t = document.getElementById("tipLocatie").value;
+    document.getElementById("divMetro").classList.toggle("hidden", t !== "metro");
+    document.getElementById("divTraseuGoogle").classList.toggle("hidden", t !== "national");
+    calculeazaTotal();
+}
 
-            const inputs = document.querySelectorAll("input, select");
-            inputs.forEach(input => {
-                input.addEventListener("input", salveazaProgres);
-                input.addEventListener("change", salveazaProgres);
-            });
-        });
+function calculeazaTotal() {
+    let pret = 0;
+    const t = document.getElementById("tipLocatie").value;
+    if (t === "local") pret = 100;
+    else if (t === "metro") {
+        const v = parseFloat(document.getElementById("listaMetro").value);
+        pret = v > 0 ? v : 100;
+    } else if (t === "national") {
+        pret = kmCalculati * 6;
+        if (pret === 0) pret = 0;
+    }
 
-        // --- INITIALIZARE GOOGLE MAPS ---
-        function initMap() {
-            const plecareInput = document.getElementById("routeStart");
-            const sosireInput = document.getElementById("routeEnd");
+    const ep = parseInt(document.getElementById("etajPlecare").value) || 0;
+    const es = parseInt(document.getElementById("etajSosire").value) || 0;
+    const lp = document.getElementById("liftPlecare").checked;
+    const ls = document.getElementById("liftSosire").checked;
+    
+    const costEtaj = (e, l) => (l || e<=0) ? 0 : (e<=2 ? 100 : (e<=6 ? 150 : 300));
+    const costP = costEtaj(ep, lp);
+    const costS = costEtaj(es, ls);
+    pret += costP + costS;
 
-            const autocompletePlecare = new google.maps.places.Autocomplete(plecareInput);
-            const autocompleteSosire = new google.maps.places.Autocomplete(sosireInput);
+    if (document.querySelector('input[name="ajutor"]:checked').value === "da") {
+        pret += (costP + costS > 0) ? (costP + costS) : 50;
+    }
 
-            autocompletePlecare.addListener("place_changed", () => {
-                calculeazaDistantaGoogle();
-                salveazaProgres(); // Salvam cand alege o locatie
-            });
-            autocompleteSosire.addListener("place_changed", () => {
-                calculeazaDistantaGoogle();
-                salveazaProgres();
-            });
-        }
+    pret *= nrVehicule;
+    if (nrVehicule > 1) {
+        pret *= 0.95;
+        document.getElementById("detaliiDiscount").style.display = "block";
+    } else document.getElementById("detaliiDiscount").style.display = "none";
 
-        function calculeazaDistantaGoogle() {
-            const origin = document.getElementById("routeStart").value;
-            const destination = document.getElementById("routeEnd").value;
+    const box = document.getElementById("boxPret");
+    const err = document.getElementById("msgNationalError");
+    if (t === "national" && nrVehicule > 1) {
+        box.style.display = "none"; err.classList.remove("hidden");
+    } else {
+        box.style.display = "block"; err.classList.add("hidden");
+        document.getElementById("pretFinal").innerText = Math.ceil(pret);
+    }
+}
 
-            if (origin && destination) {
-                const service = new google.maps.DistanceMatrixService();
-                service.getDistanceMatrix(
-                    {
-                        origins: [origin],
-                        destinations: [destination],
-                        travelMode: 'DRIVING',
-                        unitSystem: google.maps.UnitSystem.METRIC
-                    }, 
-                    callbackDistanta
-                );
-            }
-        }
+function adaugaSiVerifica() {
+    const L = parseFloat(document.getElementById("lungime").value);
+    const l = parseFloat(document.getElementById("latime").value);
+    const h = parseFloat(document.getElementById("inaltime").value);
+    const w = document.getElementById("warningMsg");
 
-        function callbackDistanta(response, status) {
-            if (status === 'OK' && response.rows[0].elements[0].status === "OK") {
-                const distValue = response.rows[0].elements[0].distance.value; 
-                kmCalculati = Math.ceil(distValue / 1000); 
-                document.getElementById("distantaText").innerText = kmCalculati + " km";
-                calculeazaTotal();
-                salveazaProgres(); // Salvam noua distanta
-            }
-        }
+    if (!L || !l || !h) { w.innerText = "Dimensiuni?"; w.style.color="red"; return; }
+    
+    const dims = [L,l,h].sort((a,b)=>b-a);
+    const maxs = [MAX_L,MAX_h,MAX_l].sort((a,b)=>b-a);
+    if (dims[0]>maxs[0] || dims[1]>maxs[1] || dims[2]>maxs[2]) {
+        w.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Prea mare!`;
+    } else w.innerText = "";
 
-        // --- LOGICA LOCATIE ---
-        function schimbaTipLocatie() {
-            const tip = document.getElementById("tipLocatie").value;
-            const divMetro = document.getElementById("divMetro");
-            const divGoogle = document.getElementById("divTraseuGoogle");
+    const vol = L*l*h;
+    const total = corpuri.reduce((a,b)=>a+b.volum,0);
+    if (total+vol > maxVolumCurent) {
+        w.innerText = "Depășește capacitatea!";
+        if(nrVehicule<2) document.getElementById("btnExtraVan").classList.remove("hidden");
+        else document.getElementById("btnContactUrgent").classList.remove("hidden");
+        return;
+    }
+    corpuri.push({L,l,h,volum:vol});
+    document.getElementById("lungime").value=""; 
+    document.getElementById("latime").value=""; 
+    document.getElementById("inaltime").value="";
+    document.getElementById("lungime").focus();
+    updateUI(); salveazaProgres(); calculeazaTotal();
+}
 
-            divMetro.classList.add("hidden");
-            divGoogle.classList.add("hidden");
+function adaugaVehicul(s=true) {
+    nrVehicule=2; maxVolumCurent=CAPACITATE_UTILIZABILA*2;
+    document.getElementById("btnExtraVan").classList.add("hidden");
+    document.getElementById("btnEliminaVan").classList.remove("hidden");
+    document.getElementById("vanTitle").innerText="2 x Vehicule (Tandem)";
+    updateUI(); if(s) salveazaProgres(); calculeazaTotal();
+}
+function eliminaVehicul() {
+    if(nrVehicule>1) {
+        nrVehicule=1; maxVolumCurent=CAPACITATE_UTILIZABILA;
+        document.getElementById("btnEliminaVan").classList.add("hidden");
+        document.getElementById("vanTitle").innerText="Vehicul 1";
+        updateUI(); salveazaProgres(); calculeazaTotal();
+    }
+}
+function stergeCorp(i) {
+    corpuri.splice(i,1); updateUI(); salveazaProgres(); calculeazaTotal();
+}
 
-            if(tip === "metro") {
-                divMetro.classList.remove("hidden");
-            } else if (tip === "national") {
-                divGoogle.classList.remove("hidden");
-            }
-            calculeazaTotal();
-        }
+function updateUI() {
+    const tb = document.querySelector("#corpuriTable tbody");
+    tb.innerHTML = "";
+    corpuri.forEach((c,i) => {
+        tb.innerHTML += `<tr><td>${i+1}</td><td>${c.L}x${c.l}x${c.h}m</td><td>${c.volum.toFixed(2)}</td><td><button style="background:red;color:white;border:none;border-radius:4px;" onclick="stergeCorp(${i})">X</button></td></tr>`;
+    });
+    const total = corpuri.reduce((a,b)=>a+b.volum,0);
+    const p = (total/maxVolumCurent)*100;
+    document.getElementById("totalVolDisplay").innerText = total.toFixed(2);
+    document.getElementById("capMaximaDisplay").innerText = maxVolumCurent.toFixed(2);
+    document.getElementById("fillPercent").innerText = p.toFixed(0)+"%";
+    document.getElementById("vanFill").style.width = p+"%";
+}
 
-        // --- CALCUL COST ---
-        function getCostEtaj(etaj, areLift) {
-            if (areLift || etaj <= 0) return 0;
-            if (etaj <= 2) return 100;
-            if (etaj <= 6) return 150;
-            return 300;
-        }
+function trimiteCerere() {
+    const n = document.getElementById("nume").value;
+    const t = document.getElementById("telefon").value;
+    const e = document.getElementById("emailClient").value;
+    const dataM = document.getElementById("dataMutare").value; // Citim data
+    const adresa1 = document.getElementById("adresaPlecareExacta").value;
+    const adresa2 = document.getElementById("adresaSosireExacta").value;
+    
+    if(!n || !t || !e || !adresa1 || !adresa2 || !dataM) {
+        alert("Toate câmpurile (inclusiv Adresele și Data) sunt obligatorii!");
+        return;
+    }
 
-        function calculeazaTotal() {
-            let pretTotal = 0;
-            const tip = document.getElementById("tipLocatie").value;
+    const btn = document.querySelector("#zonaRezultat button");
+    btn.innerHTML = 'Se trimite...'; btn.disabled = true;
 
-            if (tip === "local") {
-                pretTotal = 100;
-            } else if (tip === "metro") {
-                const valMetro = parseFloat(document.getElementById("listaMetro").value);
-                pretTotal = valMetro > 0 ? valMetro : 100; 
-            } else if (tip === "national") {
-                pretTotal = kmCalculati * 6; 
-                if (pretTotal === 0) pretTotal = 0;
-            }
+    let lista = "";
+    if(corpuri.length) corpuri.forEach((c,i)=> lista+=`<tr><td>${i+1}</td><td>${c.L}x${c.l}x${c.h}</td><td>${c.volum.toFixed(2)} m³</td></tr>`);
+    else lista = "<tr><td colspan='3'>Doar Transport (Fără listă obiecte)</td></tr>";
 
-            const etajP = parseInt(document.getElementById("etajPlecare").value) || 0;
-            const liftP = document.getElementById("liftPlecare").checked;
-            const costP = getCostEtaj(etajP, liftP);
+    const params = {
+        nume: n, telefon: t, 
+        email: e, user_email: e, to_email: e, reply_to: e, // Client
+        
+        data_mutare: dataM, // DATA MUTARII
+        
+        adresa_plecare: adresa1,
+        etaj_plecare: document.getElementById("etajPlecare").value || "Parter",
+        lift_plecare: document.getElementById("liftPlecare").checked ? "DA" : "NU",
+        
+        adresa_sosire: adresa2,
+        etaj_sosire: document.getElementById("etajSosire").value || "Parter",
+        lift_sosire: document.getElementById("liftSosire").checked ? "DA" : "NU",
+        
+        distanta: kmCalculati > 0 ? kmCalculati + " km" : "Local/Metro",
+        manipulare: document.querySelector('input[name="ajutor"]:checked').value === "da" ? "DA" : "NU",
+        
+        vehicule: nrVehicule,
+        volum_total: document.getElementById("totalVolDisplay").innerText,
+        pret_total: document.getElementById("pretFinal").innerText,
+        
+        // HTML table content for items
+        tabel_obiecte: lista
+    };
 
-            const etajS = parseInt(document.getElementById("etajSosire").value) || 0;
-            const liftS = document.getElementById("liftSosire").checked;
-            const costS = getCostEtaj(etajS, liftS);
-
-            pretTotal += costP + costS;
-
-            const vreaAjutor = document.querySelector('input[name="ajutor"]:checked').value === "da";
-            if (vreaAjutor) {
-                if ((costP + costS) > 0) pretTotal += (costP + costS);
-                else pretTotal += 50; 
-            }
-
-            pretTotal = pretTotal * nrVehicule;
-
-            if (nrVehicule > 1) {
-                pretTotal = pretTotal * 0.95; 
-                document.getElementById("detaliiDiscount").style.display = "block";
-            } else {
-                document.getElementById("detaliiDiscount").style.display = "none";
-            }
-
-            const boxPret = document.getElementById("boxPret");
-            const msgError = document.getElementById("msgNationalError");
-            
-            if (tip === "national" && nrVehicule > 1) {
-                boxPret.style.display = "none";
-                msgError.classList.remove("hidden");
-            } else {
-                boxPret.style.display = "block";
-                msgError.classList.add("hidden");
-                document.getElementById("pretFinal").innerText = Math.ceil(pretTotal);
-            }
-        }
-
-        // --- LOGICA VOLUM ---
-        function adaugaSiVerifica() {
-            const L = parseFloat(document.getElementById("lungime").value);
-            const l = parseFloat(document.getElementById("latime").value);
-            const h = parseFloat(document.getElementById("inaltime").value);
-            const warningEl = document.getElementById("warningMsg");
-
-            if (isNaN(L) || isNaN(l) || isNaN(h) || L <= 0 || l <= 0 || h <= 0) {
-                warningEl.innerText = "Dimensiuni incorecte!"; warningEl.style.color = "red"; return;
-            }
-
-            const dimObiect = [L, l, h].sort((a,b) => b-a); 
-            const dimDuba = [MAX_L, MAX_h, MAX_l].sort((a,b) => b-a); 
-            if (dimObiect[0] > dimDuba[0] || dimObiect[1] > dimDuba[1] || dimObiect[2] > dimDuba[2]) {
-                warningEl.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Obiect prea mare fizic!`;
-                warningEl.style.color = "red";
-            } else {
-                warningEl.innerText = "";
-            }
-
-            const volumObiect = L * l * h;
-            const volumCurentTotal = corpuri.reduce((acc, curr) => acc + curr.volum, 0);
-
-            if (volumCurentTotal + volumObiect > maxVolumCurent) {
-                warningEl.innerHTML = `<i class="fas fa-hand-paper"></i> Depășește capacitatea!`;
-                warningEl.style.color = "red";
-                if (nrVehicule < 2) {
-                    document.getElementById("btnExtraVan").classList.remove("hidden");
-                } else {
-                    document.getElementById("btnContactUrgent").classList.remove("hidden");
-                    warningEl.innerHTML = `<b>Volum prea mare!</b> Contactează-ne.`;
-                }
-                return;
-            }
-
-            corpuri.push({L, l, h, volum: volumObiect});
-            updateUI();
-            salveazaProgres(); // Salvam dupa adaugare
-            
-            document.getElementById("lungime").value = "";
-            document.getElementById("latime").value = "";
-            document.getElementById("inaltime").value = "";
-            document.getElementById("lungime").focus();
-            calculeazaTotal();
-        }
-
-        function adaugaVehicul(save = true) {
-            nrVehicule = 2;
-            maxVolumCurent = CAPACITATE_UTILIZABILA * 2; 
-            
-            document.getElementById("btnExtraVan").classList.add("hidden");
-            document.getElementById("btnEliminaVan").classList.remove("hidden");
-            document.getElementById("warningMsg").innerText = ""; 
-            
-            document.getElementById("vanTitle").innerText = "Vehicul 1 + Vehicul 2 (Tandem)";
-            document.getElementById("infoVehicule").innerText = "Total Flotă (2 mașini):";
-            
-            calculeazaTotal();
-            updateUI();
-            if(save) salveazaProgres();
-        }
-
-        function eliminaVehicul() {
-            if (nrVehicule > 1) {
-                nrVehicule = 1;
-                maxVolumCurent = CAPACITATE_UTILIZABILA;
-
-                document.getElementById("btnEliminaVan").classList.add("hidden");
-                document.getElementById("vanTitle").innerText = "Vehicul 1";
-                document.getElementById("infoVehicule").innerText = "Vehicul 1:";
-
-                const totalVol = corpuri.reduce((acc, curr) => acc + curr.volum, 0);
-                if (totalVol > maxVolumCurent) {
-                    document.getElementById("warningMsg").innerHTML = `<i class="fas fa-exclamation-triangle"></i> Atenție! Obiectele actuale depășesc volumul unei singure mașini.`;
-                    document.getElementById("warningMsg").style.color = "orange";
-                    document.getElementById("btnExtraVan").classList.remove("hidden");
-                }
-
-                calculeazaTotal();
-                updateUI();
-                salveazaProgres();
-            }
-        }
-
-        function stergeCorp(index) {
-            corpuri.splice(index, 1);
-            document.getElementById("warningMsg").innerText = ""; 
-            
-            const totalVol = corpuri.reduce((acc, curr) => acc + curr.volum, 0);
-            if (totalVol <= maxVolumCurent) {
-                 document.getElementById("btnContactUrgent").classList.add("hidden");
-            }
-
-            updateUI();
-            calculeazaTotal();
-            salveazaProgres();
-        }
-
-        function updateUI() {
-            const tbody = document.querySelector("#corpuriTable tbody");
-            tbody.innerHTML = "";
-            corpuri.forEach((c, i) => {
-                tbody.innerHTML += `<tr><td>${i+1}</td><td>${c.L}</td><td>${c.l}</td><td>${c.h}</td><td>${c.volum.toFixed(2)}</td><td><button class="delete-btn" onclick="stergeCorp(${i})">X</button></td></tr>`;
-            });
-
-            const totalVol = corpuri.reduce((acc, curr) => acc + curr.volum, 0);
-            const percentage = (totalVol / maxVolumCurent) * 100;
-            const fillBar = document.getElementById("vanFill");
-            const percentText = document.getElementById("fillPercent");
-            
-            document.getElementById("totalVolDisplay").innerText = totalVol.toFixed(2);
-            document.getElementById("capMaximaDisplay").innerText = maxVolumCurent.toFixed(2);
-            percentText.innerText = percentage.toFixed(0) + "%";
-            fillBar.style.width = percentage + "%";
-            
-            if (percentage < 50) fillBar.style.background = "linear-gradient(to right, #4caf50, #81c784)"; 
-            else if (percentage < 85) fillBar.style.background = "linear-gradient(to right, #ff9800, #ffcc80)"; 
-            else fillBar.style.background = "linear-gradient(to right, #f44336, #ef9a9a)"; 
-        }
-
-        function trimiteCerere() {
-            const nume = document.getElementById("nume").value;
-            const tel = document.getElementById("telefon").value;
-            if(!nume || !tel) { alert("Te rugăm să completezi Numele și Telefonul pentru a te putea contacta!"); return; }
-            
-            alert("Comanda a fost înregistrată! Te vom suna în scurt timp pentru confirmare.");
-            
-            // STERGE DATELE DUPA TRIMITERE (ca sa fie gol data viitoare)
-            localStorage.removeItem("smartMoveData");
-            location.reload(); // Reincarca pagina ca sa se goleasca totul vizual
-        }
-    </script>
+    // Trimite Client
+    emailjs.send('service_wj3tmfj', 'template_ximdn9c', params)
+        .then(() => {
+            // Trimite Admin (Copie)
+            const adminP = {...params}; 
+            adminP.email = EMAIL_ADMIN; adminP.user_email = EMAIL_ADMIN; adminP.to_email = EMAIL_ADMIN;
+            return emailjs.send('service_wj3tmfj', 'template_ximdn9c', adminP);
+        })
+        .then(() => {
+            alert("Succes! Verifică emailul.");
+            localStorage.removeItem("smartMoveData"); location.reload();
+        })
+        .catch(err => { alert(JSON.stringify(err)); btn.disabled=false; btn.innerHTML="Trimite"; });
+}
+</script>
 </body>
 </html>
