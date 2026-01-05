@@ -6,6 +6,9 @@
     --bg-light: #f4f7f6;
     --white: #ffffff;
     --gradient: linear-gradient(135deg, #0066cc 0%, #00c6ff 100%);
+    --brand-blue: #0a2463;
+    --brand-red: #d8315b;
+    --brand-gradient: linear-gradient(135deg, #0a2463 0%, #d8315b 100%);
 }
 
 * {
@@ -1050,58 +1053,61 @@ footer {
         height: 250px;
     }
 }
-:root {
---brand-blue: #0a2463;
---brand-red: #d8315b;
---brand-gradient: linear-gradient(135deg, #0a2463 0%, #d8315b 100%);
-}
+
 h2, h3, .floor-title {
-background: var(--brand-gradient);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-font-weight: 800 !important;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800 !important;
 }
 .input-group input, .input-group select {
-border: 2px solid #e0e0e0;
-background: #fff;
-transition: all 0.3s ease;
+    border: 2px solid #e0e0e0;
+    background: #fff;
+    transition: all 0.3s ease;
 }
 .input-group input:focus, .input-group select:focus {
-border-color: var(--brand-red);
-box-shadow: 0 0 10px rgba(216, 49, 91, 0.1);
+    border-color: var(--brand-red);
+    box-shadow: 0 0 10px rgba(216, 49, 91, 0.1);
 }
 .input-group label {
-color: var(--brand-blue) !important;
-font-weight: 600;
+    color: var(--brand-blue) !important;
+    font-weight: 600;
 }
 input[type="radio"]:checked + span,
 input[type="checkbox"]:checked + span {
-color: var(--brand-red);
-font-weight: bold;
+    color: var(--brand-red);
+    font-weight: bold;
 }
 .van-graphic {
-border-bottom: 3px solid var(--brand-blue);
+    border-bottom: 3px solid var(--brand-blue);
 }
 .percent-text {
-color: var(--brand-blue) !important;
-font-weight: 900;
+    color: var(--brand-blue) !important;
+    font-weight: 900;
 }
 .add-dim-btn {
-background: var(--brand-gradient) !important;
-color: white !important;
-border: none;
+    background: var(--brand-gradient) !important;
+    color: white !important;
+    border: none;
 }
 .button.btn-glow {
-background: var(--brand-gradient);
-box-shadow: 0 5px 15px rgba(10, 36, 99, 0.4);
+    background: var(--brand-gradient);
+    box-shadow: 0 5px 15px rgba(10, 36, 99, 0.4);
 }
 #boxPret {
-border: 3px solid var(--brand-red) !important;
-background: linear-gradient(to bottom, #fff, #fff0f5) !important;
-border-radius: 15px;
-transform: scale(1.02);
+    border: 3px solid var(--brand-red) !important;
+    background: linear-gradient(to bottom, #fff, #fff0f5) !important;
+    border-radius: 15px;
+    transform: scale(1.02);
 }
 .total-price-tag {
-color: var(--brand-red) !important;
-text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+    color: var(--brand-red) !important;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+.contact-section h2 {
+    background: none !important;
+    -webkit-text-fill-color: #ffffff !important;
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* O umbră mică să se vadă bine pe orice fundal */
 }
