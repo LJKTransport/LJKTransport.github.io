@@ -51,6 +51,12 @@ body {
     align-items: center;
 }
 
+.logo-container a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
 .brand-logo {
     height: 45px;
     margin-right: 12px;
@@ -144,6 +150,7 @@ body {
     background: #fff;
     overflow: hidden;
 }
+
 .hero-section::before {
     content: '';
     position: absolute;
@@ -156,6 +163,7 @@ body {
     transform: skewX(-10deg);
     z-index: 0;
 }
+
 .hero-bg-shape {
     position: absolute;
     top: -20%;
@@ -379,20 +387,22 @@ body {
 }
 
 .input-group input,
-.input-group textarea {
+.input-group textarea,
+.input-group select {
     width: 100%;
-    padding: 15px;
+    height: 65px;
+    padding: 25px 15px 10px 15px;
     border: 2px solid #eee;
     border-radius: 10px;
     outline: none;
     transition: 0.3s;
-    background: #fdfdfd;
+    background: #fff;
     font-size: 1rem;
     font-family: inherit;
 }
-
 .input-group input:focus,
-.input-group textarea:focus {
+.input-group textarea:focus,
+.input-group select:focus {
     border-color: var(--primary);
     background: #fff;
     box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
@@ -1021,12 +1031,14 @@ footer {
     .glass-form-container {
         padding: 20px !important;
     }
+    
     .dims-inputs {
         flex-wrap: wrap;
     }
     .dims-inputs .input-group {
         min-width: 30%;
     }
+    
     .add-dim-btn {
         width: 100%;
         margin-top: 10px;
@@ -1052,6 +1064,31 @@ footer {
         width: 250px;
         height: 250px;
     }
+    
+    /* MODIFICARE PENTRU CASUTELE TALE SA INCAPA SCRISUL PE O LINIE */
+    .dims-inputs {
+        flex-wrap: nowrap !important; /* Forteaza un singur rand */
+        gap: 2px !important;
+    }
+    .dims-inputs .input-group {
+        min-width: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    .dims-inputs .input-group input {
+        padding: 15px 2px !important; /* Reduce spatiul in casuta */
+        text-align: center;
+    }
+    .dims-inputs .input-group label {
+        font-size: 10px !important; /* Scris mai mic la etichete */
+        white-space: nowrap !important; /* Sa nu rupa randul */
+        left: 2px !important;
+    }
+    .add-dim-btn {
+        width: 50px !important;
+        height: 54px !important;
+        margin-top: 0 !important;
+        flex-shrink: 0;
+    }
 }
 
 h2, h3, .floor-title {
@@ -1060,46 +1097,56 @@ h2, h3, .floor-title {
     -webkit-text-fill-color: transparent;
     font-weight: 800 !important;
 }
+
 .input-group input, .input-group select {
     border: 2px solid #e0e0e0;
     background: #fff;
     transition: all 0.3s ease;
 }
+
 .input-group input:focus, .input-group select:focus {
     border-color: var(--brand-red);
     box-shadow: 0 0 10px rgba(216, 49, 91, 0.1);
 }
+
 .input-group label {
     color: var(--brand-blue) !important;
     font-weight: 600;
 }
+
 input[type="radio"]:checked + span,
 input[type="checkbox"]:checked + span {
     color: var(--brand-red);
     font-weight: bold;
 }
+
 .van-graphic {
     border-bottom: 3px solid var(--brand-blue);
 }
+
 .percent-text {
     color: var(--brand-blue) !important;
     font-weight: 900;
 }
+
 .add-dim-btn {
     background: var(--brand-gradient) !important;
     color: white !important;
     border: none;
 }
+
 .button.btn-glow {
     background: var(--brand-gradient);
     box-shadow: 0 5px 15px rgba(10, 36, 99, 0.4);
 }
+
 #boxPret {
     border: 3px solid var(--brand-red) !important;
     background: linear-gradient(to bottom, #fff, #fff0f5) !important;
     border-radius: 15px;
     transform: scale(1.02);
 }
+
 .total-price-tag {
     color: var(--brand-red) !important;
     text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
@@ -1109,5 +1156,5 @@ input[type="checkbox"]:checked + span {
     background: none !important;
     -webkit-text-fill-color: #ffffff !important;
     color: #ffffff !important;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* O umbră mică să se vadă bine pe orice fundal */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
