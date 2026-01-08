@@ -413,39 +413,42 @@ function adaugaSiVerifica() {
     const h = parseFloat(document.getElementById("inaltime").value);
     const w = document.getElementById("warningMsg");
 
-    if (!L || !l || !h) { w.innerText = "Dimensiuni?"; w.style.color="red"; return; }
+    if (!L || !l || !h) { w.innerText = "Dimensiuni lipsă!"; w.style.color="red"; return; }
     
-    // --- SCHIMBARE AICI: CONVERSIE DIN CM IN METRI ---
-    const L_m = L / 100;
-    const l_m = l / 100;
-    const h_m = h / 100;
+    // 1. Calcul volum direct în cm3
+    const vol_cm3 = L * l * h; 
+    // 2. Conversie în m3 pentru calculele de capacitate totală a dubei
+    const vol_m3 = vol_cm3 / 1000000;
 
-    const dims = [L_m, l_m, h_m].sort((a,b)=>b-a);
-    const maxs = [MAX_L,MAX_h,MAX_l].sort((a,b)=>b-a);
+    // 3. Verificare dimensiuni maxime (Comparăm CM cu CM)
+    // MAX_L, MAX_l, MAX_h sunt în metri, deci le înmulțim cu 100
+    const dims = [L, l, h].sort((a,b)=>b-a);
+    const maxs = [MAX_L*100, MAX_h*100, MAX_l*100].sort((a,b)=>b-a);
     
-    if (dims[0]>maxs[0] || dims[1]>maxs[1] || dims[2]>maxs[2]) {
-        w.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Prea mare!`;
+    if (dims[0] > maxs[0] || dims[1] > maxs[1] || dims[2] > maxs[2]) {
+        w.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Obiect prea mare pentru dubă!`;
     } else w.innerText = "";
-
-    const vol = L_m * l_m * h_m;
-    // ------------------------------------------------
     
+    // 4. Verificare depășire volum total (în m3)
     const total = corpuri.reduce((a,b)=>a+b.volum,0);
-    if (total+vol > maxVolumCurent) {
-        w.innerText = "Depășește capacitatea!";
+    if (total + vol_m3 > maxVolumCurent) {
+        w.innerText = "Depășește capacitatea vehiculului!";
         if(nrVehicule<2) document.getElementById("btnExtraVan").classList.remove("hidden");
         else document.getElementById("btnContactUrgent").classList.remove("hidden");
         return;
     }
     
-    // Salvam L, l, h originale (in CM) ca sa apara corect in tabel
-    corpuri.push({L,l,h,volum:vol});
+    // Salvăm în listă (volumul rămâne stocat în m3 pentru consistență, dar afișăm cm3)
+    corpuri.push({L, l, h, volum: vol_m3});
     
     document.getElementById("lungime").value=""; 
     document.getElementById("latime").value=""; 
     document.getElementById("inaltime").value="";
     document.getElementById("lungime").focus();
-    updateUI(); salveazaProgres(); calculeazaTotal();
+    
+    updateUI(); 
+    salveazaProgres(); 
+    calculeazaTotal();
 }
 
 function adaugaVehicul(s=true) {
@@ -471,11 +474,21 @@ function updateUI() {
     const tb = document.querySelector("#corpuriTable tbody");
     tb.innerHTML = "";
     corpuri.forEach((c,i) => {
-        // Afisam in tabel CM (c.L, c.l) si volumul
-        tb.innerHTML += `<tr><td>${i+1}</td><td>${c.L}x${c.l}x${c.h} cm</td><td>${c.volum.toFixed(2)} m³</td><td><button style="background:red;color:white;border:none;border-radius:4px;cursor:pointer;padding:2px 6px;" onclick="stergeCorp(${i})">X</button></td></tr>`;
+        // Conversie inversă pentru afișare: m3 -> cm3
+        const afisaj_cm3 = (c.volum * 1000000).toFixed(0); 
+        
+        tb.innerHTML += `
+            <tr>
+                <td>${i+1}</td>
+                <td>${c.L} x ${c.l} x ${c.h} cm</td>
+                <td>${afisaj_cm3} cm³</td>
+                <td><button style="background:red;color:white;border:none;border-radius:4px;cursor:pointer;padding:2px 6px;" onclick="stergeCorp(${i})">X</button></td>
+            </tr>`;
     });
-    const total = corpuri.reduce((a,b)=>a+b.volum,0);
+
+    const total = corpuri.reduce((a,b)=>a+b.volum,0); // Totalul rămâne în m3
     const p = (total/maxVolumCurent)*100;
+    
     document.getElementById("totalVolDisplay").innerText = total.toFixed(2);
     document.getElementById("capMaximaDisplay").innerText = maxVolumCurent.toFixed(2);
     document.getElementById("fillPercent").innerText = p.toFixed(0)+"%";
@@ -498,9 +511,18 @@ function trimiteCerere() {
     const btn = document.querySelector("#zonaRezultat button");
     btn.innerHTML = 'Se trimite...'; btn.disabled = true;
 
+    // --- MODIFICARE AICI: Generare listă în cm³ ---
     let lista = "";
-    if(corpuri.length) corpuri.forEach((c,i)=> lista+=`<tr><td>${i+1}</td><td>${c.L}x${c.l}x${c.h} cm</td><td>${c.volum.toFixed(2)} m³</td></tr>`);
-    else lista = "<tr><td colspan='3'>Doar Transport (Fără listă obiecte)</td></tr>";
+    if(corpuri.length) {
+        corpuri.forEach((c,i)=> {
+            // Convertim volumul din m³ în cm³ pentru afișarea în email
+            const vol_cm3 = (c.volum * 1000000).toFixed(0);
+            lista += `<tr><td>${i+1}</td><td>${c.L}x${c.l}x${c.h} cm</td><td>${vol_cm3} cm³</td></tr>`;
+        });
+    } else {
+        lista = "<tr><td colspan='3'>Doar Transport (Fără listă obiecte)</td></tr>";
+    }
+    // ----------------------------------------------
 
     const params = {
         nume: n, telefon: t, 
@@ -520,7 +542,8 @@ function trimiteCerere() {
         manipulare: document.querySelector('input[name="ajutor"]:checked').value === "da" ? "DA" : "NU",
         
         vehicule: nrVehicule,
-        volum_total: document.getElementById("totalVolDisplay").innerText,
+        // Totalul îl lăsăm în m³ pentru că e mai relevant pentru capacitatea dubei
+        volum_total: document.getElementById("totalVolDisplay").innerText + " m³", 
         pret_total: document.getElementById("pretFinal").innerText,
         
         tabel_obiecte: lista
@@ -536,7 +559,11 @@ function trimiteCerere() {
             alert("Succes! Verifică emailul.");
             localStorage.removeItem("smartMoveData"); location.reload();
         })
-        .catch(err => { alert(JSON.stringify(err)); btn.disabled=false; btn.innerHTML="Trimite"; });
+        .catch(err => { 
+            alert(JSON.stringify(err)); 
+            btn.disabled=false; 
+            btn.innerHTML='Trimite Comanda Fermă <i class="fas fa-paper-plane"></i>'; 
+        });
 }
 </script>
 </body>
