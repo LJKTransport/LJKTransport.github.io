@@ -495,14 +495,25 @@ function adaugaSiVerifica() {
     const l = parseFloat(document.getElementById("latime").value);
     const h = parseFloat(document.getElementById("inaltime").value);
     const w = document.getElementById("warningMsg");
-    if (!L || !l || !h) { w.innerText = "Completează dimensiunile!"; w.style.color="red"; return; }
+
+    if (!L || !l || !h) { 
+        w.innerText = "Completează dimensiunile!"; 
+        w.style.color="red"; 
+        return; 
+    }
+
     const vol_unitar_m3 = (L * l * h) / 1000000;
     const vol_total_m3 = vol_unitar_m3 * buc;
+
     const dims = [L, l, h].sort((a,b)=>b-a);
     const maxs = [MAX_L*100, MAX_h*100, MAX_l*100].sort((a,b)=>b-a);
+
     if (dims[0] > maxs[0] || dims[1] > maxs[1] || dims[2] > maxs[2]) {
         w.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Obiect prea mare pentru dubă!`;
-    } else w.innerText = "";
+    } else {
+        w.innerText = "";
+    }
+
     const totalExistent = corpuri.reduce((a,b)=>a+b.volumTotal,0);
     if (totalExistent + vol_total_m3 > maxVolumCurent) {
         w.innerText = "Depășește capacitatea vehiculului!";
@@ -510,13 +521,25 @@ function adaugaSiVerifica() {
         else document.getElementById("btnContactUrgent").classList.remove("hidden");
         return;
     }
-    corpuri.push({ nume: nume, buc: buc, L, l, h, volumTotal: vol_total_m3 });
+
+    // Salvăm obiectul cu toate proprietățile noi
+    corpuri.push({ 
+        nume: nume, 
+        buc: buc, 
+        L: L, 
+        l: l, 
+        h: h, 
+        volumTotal: vol_total_m3 
+    });
+
+    // Resetăm input-urile
     document.getElementById("numeObiect").value="";
     document.getElementById("bucati").value="1";
     document.getElementById("lungime").value=""; 
     document.getElementById("latime").value=""; 
     document.getElementById("inaltime").value="";
     document.getElementById("numeObiect").focus();
+
     updateUI(); 
     salveazaProgres(); 
     calculeazaTotal();
@@ -569,72 +592,100 @@ function trimiteCerere() {
     const dataM = document.getElementById("dataMutare").value; 
     const adresa1 = document.getElementById("adresaPlecareExacta").value;
     const adresa2 = document.getElementById("adresaSosireExacta").value;
+
     if(!n || !t || !e || !adresa1 || !adresa2 || !dataM) {
-        alert("Toate câmpurile sunt obligatorii!"); return;
+        alert("Toate câmpurile sunt obligatorii!"); 
+        return;
     }
+
     const btn = document.querySelector("#zonaRezultat button");
-    btn.innerHTML = 'Se trimite...'; btn.disabled = true;
+    btn.innerHTML = 'Se trimite...'; 
+    btn.disabled = true;
+
+    // --- GENERARE TABEL CU 5 COLOANE PENTRU EMAIL ---
     let lista = "";
     if(corpuri.length) {
-        corpuri.forEach((c,i)=> {
-            lista += `<tr><td>${c.nume}</td><td>${c.buc}</td><td>${c.L}x${c.l}x${c.h} cm</td><td>${c.volumTotal.toFixed(2)} m³</td></tr>`;
+        corpuri.forEach((c, i) => {
+            // Convertim volumul total din m3 în cm3 pentru afișare clară în email
+            const vol_cm3 = (c.volumTotal * 1000000).toFixed(0);
+            
+            lista += `
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #dee2e6; text-align: center;">${i + 1}</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">${c.nume}</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6; text-align: center;">${c.buc}</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">${c.L}x${c.l}x${c.h} cm</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6; text-align: right;">${vol_cm3} cm³</td>
+                </tr>`;
         });
-    } else { lista = "<tr><td colspan='4'>Doar Transport</td></tr>"; }
+    } else { 
+        lista = "<tr><td colspan='5' style='padding: 10px; text-align: center;'>Doar Transport (Fără obiecte listate)</td></tr>"; 
+    }
 
+    // --- LOGICĂ ORAȘE ---
     let localitateSursa = "Brașov"; 
-let localitateDestinatie = "Brașov";
+    let localitateDestinatie = "Brașov";
 
-const tip = document.getElementById("tipLocatie").value;
-if (tip === "metro") {
-    const sel = document.getElementById("listaMetro");
-    localitateDestinatie = sel.options[sel.selectedIndex].text.split('(')[0].trim();
-} else if (tip === "national") {
-    localitateSursa = document.getElementById("routeStart").value;
-    localitateDestinatie = document.getElementById("routeEnd").value;
-}
-// ---------------------------------------
+    const tip = document.getElementById("tipLocatie").value;
+    if (tip === "metro") {
+        const sel = document.getElementById("listaMetro");
+        localitateDestinatie = sel.options[sel.selectedIndex].text.split('(')[0].trim();
+    } else if (tip === "national") {
+        localitateSursa = document.getElementById("routeStart").value;
+        localitateDestinatie = document.getElementById("routeEnd").value;
+    }
 
-const params = {
-    nume: n, 
-    telefon: t, 
-    email: e, 
-    user_email: e, 
-    to_email: e, 
-    reply_to: e, 
-    data_mutare: dataM,
-    
-    // VARIABILELE NOI PE CARE LE VEI FOLOSI ÎN EMAILJS:
-    oras_plecare: localitateSursa,
-    oras_sosire: localitateDestinatie,
-    
-    adresa_plecare: adresa1,
-    etaj_plecare: document.getElementById("etajPlecare").value || "Parter",
-    lift_plecare: document.getElementById("liftPlecare").checked ? "DA" : "NU",
-    
-    adresa_sosire: adresa2,
-    etaj_sosire: document.getElementById("etajSosire").value || "Parter",
-    lift_sosire: document.getElementById("liftSosire").checked ? "DA" : "NU",
-    
-    distanta: kmCalculati > 0 ? kmCalculati + " km" : "Local/Metro",
-    manipulare: document.querySelector('input[name="ajutor"]:checked').value === "da" ? "DA" : "NU",
-    
-    vehicule: nrVehicule === 2 ? "2 Vehicule (Tandem)" : "1 Vehicul",
-    volum_total: document.getElementById("totalVolDisplay").innerText + " m³", 
-    pret_total: document.getElementById("pretFinal").innerText,
-    
-    tabel_obiecte: lista
-};
+    // --- CONFIGURARE PARAMETRI EMAILJS ---
+    const params = {
+        nume: n, 
+        telefon: t, 
+        email: e, 
+        user_email: e, 
+        to_email: e, 
+        reply_to: e, 
+        data_mutare: dataM,
+        
+        oras_plecare: localitateSursa,
+        oras_sosire: localitateDestinatie,
+        
+        // Adresa de plecare forțată la litere mari din cod
+        adresa_plecare: adresa1.toUpperCase(), 
+        etaj_plecare: document.getElementById("etajPlecare").value || "Parter",
+        lift_plecare: document.getElementById("liftPlecare").checked ? "DA" : "NU",
+        
+        adresa_sosire: adresa2,
+        etaj_sosire: document.getElementById("etajSosire").value || "Parter",
+        lift_sosire: document.getElementById("liftSosire").checked ? "DA" : "NU",
+        
+        distanta: kmCalculati > 0 ? kmCalculati + " km" : "Local/Metro",
+        manipulare: document.querySelector('input[name="ajutor"]:checked').value === "da" ? "DA" : "NU",
+        
+        vehicule: nrVehicule === 2 ? "2 Vehicule (Tandem)" : "1 Vehicul",
+        volum_total: document.getElementById("totalVolDisplay").innerText + " m³", 
+        pret_total: document.getElementById("pretFinal").innerText,
+        
+        tabel_obiecte: lista
+    };
 
+    // --- TRIMITERE CĂTRE EMAILJS ---
     emailjs.send('service_wj3tmfj', 'template_ximdn9c', params)
         .then(() => {
-            const adminP = {...params}; adminP.email = EMAIL_ADMIN; adminP.to_email = EMAIL_ADMIN;
+            const adminP = {...params}; 
+            adminP.email = EMAIL_ADMIN; 
+            adminP.to_email = EMAIL_ADMIN;
             return emailjs.send('service_wj3tmfj', 'template_ximdn9c', adminP);
         })
         .then(() => {
-            alert("Succes! Verifică emailul.");
-            localStorage.removeItem("smartMoveData"); location.reload();
+            alert("Succes! Comanda a fost trimisă.");
+            localStorage.removeItem("smartMoveData"); 
+            location.reload();
         })
-        .catch(err => { alert("Eroare trimitere."); btn.disabled=false; btn.innerHTML='Trimite Comanda'; });
+        .catch(err => { 
+            console.error("EmailJS Error:", err);
+            alert("Eroare la trimitere."); 
+            btn.disabled = false; 
+            btn.innerHTML = 'Trimite Comanda'; 
+        });
 }
 </script>
 </body>
